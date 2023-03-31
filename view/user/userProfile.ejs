@@ -1,0 +1,171 @@
+<%- include("../layout/homeHeader.ejs") %>
+    <div class="top-header-area" id="sticker">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <div class="main-menu-wrap">
+                        <!-- logo -->
+                        <div class="site-logo">
+                            <a href="index.html">
+                                <img src="assets/img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <!-- logo -->
+
+                        <!-- menu start -->
+                        <nav class="main-menu">
+                            <ul>
+                                <li class="current-list-item"><a href="/">Home</a>
+
+                                </li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="/shop">Shop</a></li>
+                                <li><a href="/cart">Cart</a></li>
+                                <li><a href="/wishList">WishList</a></li>
+                                <li>
+                                    <div class="header-icons">
+                                        <a class="dropks" href="">
+                                            <%= userData.name %>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li><a href="/userProfile">Profile</a></li>
+                                            <li><a href="/orderList">Orders</a></li>
+                                            <li><a href="/userAddress">Address</a></li>
+                                            <li><a href="/logout"><button class="btn"
+                                                        style="background-color: orange;">Logout</button></a></li>
+
+                                        </ul>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                        <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                        <div class="mobile-menu"></div>
+                        <!-- menu end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <p>Fresh and Organic</p>
+                        <h1>User Profile</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt-5">
+        <div class="row py-5 justify-content-center">
+            <div class="col col-lg-10">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <p class="text-center fs-4">Your Details</p>
+                        <hr>
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 m-5">
+                                <table class="table table-bordered border-secondary">
+
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-lg-3">User Name</td>
+                                            <td class="text-dark">
+                                                <%= userData.name %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-lg-3">Email</td>
+                                            <td class="text-dark">
+                                                <%= userData.email %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-lg-3">Mobile Number</td>
+                                            <td class="text-dark">
+                                                <%= userData.mobile %>
+                                                    <p style="color: green;">verified</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="" colspan="2"><a href="/userEdit/?id=<%= userData._id %>"
+                                                    class="btn" style="background-color: orange;color: white;">Edit</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+                                <table class="table table-bordered border-secondary mt-3">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-lg-3">Password</td>
+                                            <td>********</td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                    <hr>
+                               <h5 class="text-grey mt-5">Change password</h5>
+                                
+                                    <div class="card card-body mt-5">
+                                        <form class="row g-3 needs-validation" method="post" action="userProfile">
+                                            <div class="col-md-12">
+                                                <label for="validationCustom01" class="form-label">
+                                                    Current password</label>
+                                                <input type="password" class="form-control" id="validationCustom01"
+                                                    name="Currentpass" required>
+                                            </div>
+                                            <% if(typeof Vmessage!='undefined' ){ %>
+
+                                                <p style="color: rgb(231, 27, 12);margin-left: 10px;">
+                                                    <%= Vmessage %>
+                                                </p>
+
+                                                <% } %>
+                                            <div class="col-md-12 mb-3">
+                                                <label for="validationCustom02" class="form-label">
+                                                    New Password</label>
+                                                <input type="password" class="form-control" id="validationCustom02"
+                                                    name="NewPass" required>
+                                            </div>
+                                            <% if(typeof pmessage!='undefined' ){ %>
+
+                                                <p style="color: rgb(231, 27, 12);margin-left: 10px;">
+                                                    <%= pmessage %>
+                                                </p>
+
+                                                <% } %>
+                                            <div class="col-md-12 mb-3">
+                                                <label for="validationCustom02" class="form-label">
+                                                    Confirm Password</label>
+                                                <input type="text" class="form-control" id="validationCustom02"
+                                                    name="confirmPass" required>
+                                            </div>
+                                            <% if(typeof message!='undefined' ){ %>
+
+                                                <p style="color: rgb(231, 27, 12);margin-left: 10px;">
+                                                    <%= message %>
+                                                </p>
+
+                                                <% } %>
+                                                    <div class="col-12">
+                                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                                    </div>
+                                        </form>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../layout/homeFooter.ejs") %>

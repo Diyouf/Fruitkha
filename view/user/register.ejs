@@ -1,0 +1,89 @@
+<%- include("../layout/header.ejs") %>
+
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">Sign up</h2>
+                    <form method="post" class="register-form" id="register-form" action="">
+                        <div class="form-group">
+                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="name" id="name" placeholder="Your Name" required>
+                        </div>
+                        <% if(typeof errMassege !=="undefined" ){ %>
+                            <p style="color:rgb(255, 0, 0)">
+                                <%= errMassege %>
+                            </p>
+                            <% } %>
+
+                                <div class="form-group">
+                                    <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                    <input type="email" name="email" id="email" placeholder="Your Email" required>
+                                </div>
+                                <% if(typeof emailMassege !=="undefined" ){ %>
+                                    <p style="color:rgb(255, 0, 0)">
+                                        <%= emailMassege %>
+                                    </p>
+                                    <% } %>
+                                    <% if(typeof EmMassege !=="undefined" ){ %>
+                                        <p style="color:rgb(255, 0, 0)">
+                                            <%= EmMassege %>
+                                        </p>
+                                        <% } %>
+                                        <div class="form-group">
+                                            <label for="pass"><i class="zmdi zmdi-phone"></i></label>
+                                            <input type="text" name="mobile" id="mobile" placeholder="Mobile" required>
+                                        </div>
+                                        <% if(typeof mobileMassege !=="undefined" ){ %>
+                                            <p style="color:rgb(255, 0, 0)">
+                                                <%= mobileMassege %>
+                                            </p>
+                                            <% } %>
+                                            <% if(typeof mobMassege !=="undefined" ){ %>
+                                                <p style="color:rgb(255, 0, 0)">
+                                                    <%= mobMassege %>
+                                                </p>
+                                                <% } %>
+
+                                        <div class="form-group">
+                                            <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                            <input type="password" name="password" id="pass" placeholder="Password" required>
+                                        </div>
+                                        <% if(typeof passError !=="undefined" ){ %>
+                                            <p style="color:rgb(255, 0, 0)">
+                                                <%= passError %>
+                                            </p>
+                                            <% } %>
+
+                                        <div class="form-group">
+                                            <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                            <input type="password" name="repassword" id="re_pass"
+                                                placeholder="Repeat your password" />
+                                        </div>
+                                        <% if(typeof passMessage !=="undefined" ){ %>
+                                            <p style="color:rgb(255, 0, 0)">
+                                                <%= passMessage %>
+                                            </p>
+                                            <% } %>
+
+                                                <div class="form-group form-button">
+                                                    <input type="submit" name="signup" id="signup" class="form-submit"
+                                                        value="Register" />
+                                                </div>
+                                                <% if(typeof message !=="undefined" ){ %>
+                                                    <p style="color:green">
+                                                        <%= message %>
+                                                    </p>
+                                                    <% } %>
+                    </form>
+                </div>
+                <div class="signup-image">
+                    <figure><img src="images\pngtree-big-hand-hold-shop-with-businessman-png-image_5631271.png"
+                            alt="sing up image"></figure>
+                    <a href="/login" class="signup-image-link">I am already member</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include("../layout/footer.ejs") %>

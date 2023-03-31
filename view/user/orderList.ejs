@@ -1,0 +1,302 @@
+<%- include("../layout/homeHeader.ejs") %>
+
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+    <!--PreLoader Ends-->
+
+    <!-- header -->
+    <div class="top-header-area" id="sticker">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <div class="main-menu-wrap">
+                        <!-- logo -->
+                        <div class="site-logo">
+                            <a href="index.html">
+                                <img src="assets/img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <!-- logo -->
+
+                        <!-- menu start -->
+                        <nav class="main-menu">
+                            <ul>
+                                <li class="current-list-item"><a href="/">Home</a>
+
+                                </li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="/shop">Shop</a></li>
+                                <li><a href="/cart">Cart</a></li>
+                                <li><a href="/wishList">WishList</a></li>
+                                <li>
+                                    <div class="header-icons">
+                                        <a class="dropks" href="">
+                                            <%= userData.name %>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li><a href="/userProfile">Profile</a></li>
+                                            <li><a href="/orderList">Orders</a></li>
+                                            <li><a href="/userAddress">Address</a></li>
+                                            <li><a href="/logout"><button class="btn"
+                                                        style="background-color: orange;">Logout</button></a></li>
+
+                                        </ul>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                        <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                        <div class="mobile-menu"></div>
+                        <!-- menu end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header -->
+
+    <!-- search area -->
+    <div class="search-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <span class="close-btn"><i class="fas fa-window-close"></i></span>
+                    <div class="search-bar">
+                        <div class="search-bar-tablecell">
+                            <h3>Search For:</h3>
+                            <input type="text" placeholder="Keywords">
+                            <button type="submit">Search <i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end search arewa -->
+
+    <!-- breadcrumb-section -->
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <h1>Orders</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end breadcrumb section -->
+
+    <!-- cart -->
+    <div class="cart-section mt-150 mb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="cart-table-wrap">
+                        <% if(orderDetails.length>0){ %>
+                            <table class="cart-table">
+                                <thead class="cart-table-head">
+                                    <tr class="table-head-row">
+                                        <th class="product-name"><b>Order Id </b></th>
+                                        <th class="product-name"><b>PeymentMethod </b></th>
+                                        <th class="product-price"><b>date</b></th>
+                                        <th class="product-quantity"><b>order Status</b></th>
+                                        <th class="product-total"><b>Total Price</b></th>
+                                        <th class="product-total"><b>product View</b></th>
+                                        <th class="product-total"><b>Action</b></th>
+
+                                    </tr>
+                                </thead>
+                                <% orderDetails.forEach((order)=>{ %>
+                                    <tbody>
+                                        <td class="text-center">
+                                            <%= order._id%>
+                                        </td>
+                                        <td class="text-center">
+                                            <%= order.peymentMethod %>
+                                        </td>
+                                        <td class="text-center">
+                                            <%= order.date %>
+                                        </td>
+                                        <td class="text-center">
+                                            <%= order.status %>
+                                        </td>
+                                        <td class="text-center">₹<%= order.dicountTotal %>
+                                        </td>
+                                        <td class="product-remove "><a href="/orderView/?id=<%= order._id %>"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-eye " viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                                    <path
+                                                        d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                                </svg></a></td>
+                                        <td>
+                                            <% if(order.status=="Delivered" ){ %>
+                                                <a href="/orderReturn/?id=<%= order._id %>" id="<%= order._id %>"
+                                                    onclick="returnOrdrer(event,'<%= order._id %>')"
+                                                    class="btn btn-danger">Return</a>
+                                                <% }else if(order.status=="Returned" ){ %>
+                                                    <p class="text text-danger">Returned</p>
+                                                    <% }else if(order.status=="Cancelled" ){ %>
+                                                        <p class="text text-warning">Canceled</p>
+                                                        <% }else{ %>
+                                                            <a href="/orderCancel/?id=<%= order._id %>"
+                                                                id="<%= order._id %>"
+                                                                onclick="cancelOrdrer(event,'<%= order._id %>')"
+                                                                class="btn btn-warning">Cancel</a>
+                                                            <% } %>
+
+                                        </td>
+                                    </tbody>
+                                    <% }) %>
+                            </table>
+                            <% }else{ %>
+                                <h2>Order is Empty</h2>
+                                <div class="cart-buttons ">
+                                    <a href="/shop" class="boxed-btn">Continue Shopping</a>
+                                </div>
+                                <% } %>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- end cart -->
+
+
+
+    <!-- footer -->
+    <div class="footer-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box about-widget">
+                        <h2 class="widget-title">About us</h2>
+                        <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                            doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box get-in-touch">
+                        <h2 class="widget-title">Get in Touch</h2>
+                        <ul>
+                            <li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+                            <li>support@fruitkha.com</li>
+                            <li>+00 111 222 3333</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box pages">
+                        <h2 class="widget-title">Pages</h2>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="services.html">Shop</a></li>
+                            <li><a href="news.html">News</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box subscribe">
+                        <h2 class="widget-title">Subscribe</h2>
+                        <p>Subscribe to our mailing list to get the latest updates.</p>
+                        <form action="index.html">
+                            <input type="email" placeholder="Email">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end footer -->
+
+    <!-- copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>, All Rights
+                        Reserved.<br>
+                        Distributed By - <a href="https://themewagon.com/">Themewagon</a>
+                    </p>
+                </div>
+                <div class="col-lg-6 text-right col-md-12">
+                    <div class="social-icons">
+                        <ul>
+                            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-dribbble"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+    <script>
+        function returnOrdrer(e, id) {
+            e.preventDefault();
+            console.log("clicked")
+            Swal.fire({
+                title: 'Return order ?',
+                text: "Do you want to return this order!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, return it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Swal.fire(
+                        'Return Confirmed!',
+                        'Return request sended',
+                        'success'
+                    ).then((result) => {
+                        window.location.href = document.getElementById(id).href;
+                    })
+
+                }
+            })
+        }
+    </script>
+    <script>
+        function cancelOrdrer(e, id) {
+            e.preventDefault();
+            console.log("clicked")
+            Swal.fire({
+                title: 'Cancel order ?',
+                text: "Do you want to Cancel this order!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Cancel it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    Swal.fire(
+                        'Cancel Confirmed!',
+                        'Cancel request sended',
+                        'success'
+                    ).then((result) => {
+                        window.location.href = document.getElementById(id).href;
+                    })
+
+                }
+            })
+        }
+    </script>
+
+    <%- include("../layout/homeFooter.ejs") %>

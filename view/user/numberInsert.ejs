@@ -1,0 +1,72 @@
+<%- include("../layout/otpHeader.ejs") %>
+
+<style>
+    .card {
+      width: 350px;
+      padding: 10px;
+      border-radius: 20px;
+      background: #fff;
+      border: none;
+      height: 350px;
+      position: relative;
+    }
+
+    .container {
+      height: 100vh;
+    }
+
+    body {
+      background: #eee;
+    }
+
+    .mobile-text {
+      color: #989696b8;
+      font-size: 15px;
+    }
+
+    .form-control {
+      margin-right: 12px;
+    }
+
+    .form-control:focus {
+      color: #495057;
+      background-color: #fff;
+      border-color: #ff8880;
+      outline: 0;
+      box-shadow: none;
+    }
+
+    .cursor {
+      cursor: pointer;
+    }
+  </style>
+
+  <!-- <div class="d-flex justify-content-center align-items-center container">
+    <div class="card py-5 px-3">
+      <h5 class="mb-3">Mobile phone verification</h5><span class="mobile-text mt - 3">Enter your Mobile number 
+        for verify </span>
+        <input type="tel" id="typePhone" class="form-control mt-3" placeholder="Enter Mobile No."/>
+        <button type="submit" class="btn btn-danger mt-5" method="post">Send OTP</button>
+    </div>
+  </div> -->
+
+  <form action="" method="post">
+    <div class="d-flex justify-content-center align-items-center container">
+      <div class="card py-5 px-3">
+        <h5 class="mb-3">Mobile phone verification</h5><span class="mobile-text mt - 3">Enter your Mobile number 
+          for verify </span>
+          <input type="tel" id="typePhone" class="form-control mt-3" name="number" placeholder="Enter Mobile No."/>
+          <% if(typeof numErr !=="undefined" ){ %>
+            <p style="color:rgb(255, 0, 0)">
+                <%= numErr %>
+            </p>
+            <% } %>
+          <button type="submit" class="btn btn-danger mt-5" >Send OTP</button>
+      </div>
+    </div>
+  </form>
+
+
+
+
+<%- include("../layout/otpFooter.ejs") %>

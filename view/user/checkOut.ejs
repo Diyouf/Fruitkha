@@ -1,0 +1,445 @@
+<%- include("../layout/homeHeader.ejs") %>
+    <div class="top-header-area" id="sticker">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <div class="main-menu-wrap">
+                        <!-- logo -->
+                        <div class="site-logo">
+                            <a href="index.html">
+                                <img src="assets/img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <!-- logo -->
+
+                        <!-- menu start -->
+                        <nav class="main-menu">
+                            <ul>
+                                <li class="current-list-item"><a href="/">Home</a>
+
+                                </li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="/shop">Shop</a></li>
+                                <li><a href="/cart">Cart</a></li>
+                                <li><a href="/wishList">WishList</a></li>
+                                <li>
+                                    <div class="header-icons">
+                                        <a class="dropks" href="">
+                                            <%= userData.name %>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li><a href="/userProfile">Profile</a></li>
+                                            <li><a href="/orderList">Orders</a></li>
+                                            <li><a href="/userAddress">Address</a></li>
+                                            <li><a href="/logout"><button class="btn"
+                                                        style="background-color: orange;">Logout</button></a></li>
+
+                                        </ul>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                        <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                        <div class="mobile-menu"></div>
+                        <!-- menu end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header -->
+
+    <!-- breadcrumb-section -->
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <p>Fresh and Organic</p>
+                        <h1>Check Out Product</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end breadcrumb section -->
+
+    <!-- check out section -->
+    <div class="checkout-section mt-150 mb-150">
+        <div class="container">
+            <form id="checkout-form" action="/checkOut" method="POST">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="checkout-accordion-wrap">
+                            <div class="accordion" id="accordionExample">
+                                <div class="card single-accordion">
+                                    <div class="card-header" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                                data-target="#collapseOne" aria-expanded="true"
+                                                aria-controls="collapseOne">
+                                                Shipping Address
+                                            </button>
+                                        </h5>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body pl-5">
+                                            <% if(addressData.length>0){ %>
+                                                <% addressData.forEach(address=>{ %>
+                                                    <div class="checkBox">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="selectAddress" id="flexRadioDefault"
+                                                            value="<%= address._id %>">
+
+                                                        <div class="card bg-light mb-3">
+                                                            <div class="card-body">
+                                                                <p class="fw-bold">
+                                                                    <b>
+                                                                        <%= address.fullName %>
+                                                                    </b>
+                                                                </p>
+                                                                <p>
+                                                                    <%= address.mobile %>
+
+                                                                </p>
+                                                                <p>
+                                                                    <%= address.address %>
+                                                                </p>
+                                                                <p>
+                                                                    <%= address.landMark %>
+
+                                                                        <%= address.city %>,<%= address.state %>-<%=
+                                                                                    address.pincode %>
+                                                                </p>
+
+                                                                <a href="/addressEdit/?id=<%=address._id %>&checkout=true"
+                                                                    class="btn btn-warning">Edit</a>
+                                                            </div>
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                    <% }) %>
+                                                        <% }else{ %>
+                                                            <h6>Address is Empty</h6>
+
+                                                            <% } %>
+                                                                <a href="/userAddress" class="btn btn-dark">Add New
+                                                                    Address Here</a>
+                                        </div>
+                                        <p id="errorMssg" style="color:rgb(255, 0, 0);margin-left: 15px;">
+
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card single-accordion">
+                                    <div class="card-header" id="headingTwo">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                                data-target="#collapseTwo" aria-expanded="false"
+                                                aria-controls="collapseTwo">
+                                                Peyment Method
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body pl-5">
+                                            <div class="shipping-address-form">
+                                                <input class="form-check-input" type="radio" name="peymentMethod"
+                                                    id="flexRadioDefault1" value="Cash on Delivery">
+                                                <p><b>Cash On Delivery.</b></p>
+                                                <input class="form-check-input" type="radio" name="peymentMethod"
+                                                    id="flexRadioDefault1" value="UPI Payment ">
+                                                <p><b>UPI Payment.</b></p>
+                                            </div>
+
+                                            <p id="addressError" style="color:rgb(255, 0, 0)">
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="order-details-wrap">
+                            <table class="order-details">
+                                <thead>
+                                    <tr>
+                                        <th>Your order Details</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="order-details-body">
+                                    <tr>
+                                        <td>Product</td>
+                                        <td>Total</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cart total</td>
+                                        <td>₹<%= totalSalePrice %>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                                <tbody class="checkout-details">
+                                    <tr>
+                                        <td>Coupon</td>
+                                        <td>-₹<span id="discountValue">0.00</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Shipping</td>
+                                        <td>free</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total</td>
+                                        <td>₹<span id="totalPrice">
+                                                <%= totalSalePrice %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn mt-5" 
+                                style="border-radius: 8px;background-color:  #f28123;color: white;width: 130px;height: 50px;">Place
+                                Order</button>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </form>
+            <div class="coupon-section">
+                <h3>Apply Coupon</h3>
+                <div class="coupon-form-wrap">
+                    <p><input id="couponId" type="text" placeholder="Coupon" width="50%"></p>
+                    <p id="couponErr" class="text-danger"></p>
+                    <p><button id="applyButton" style="border-radius: 8px;background-color: #f28123;color: white;width: 130px;height: 50px; border:none" onclick="applyCoupon()">Apply</button></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end check out section -->
+
+
+    <!-- end logo carousel -->
+
+    <!-- footer -->
+    <div class="footer-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box about-widget">
+                        <h2 class="widget-title">About us</h2>
+                        <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem
+                            accusantium
+                            doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box get-in-touch">
+                        <h2 class="widget-title">Get in Touch</h2>
+                        <ul>
+                            <li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+                            <li>support@fruitkha.com</li>
+                            <li>+00 111 222 3333</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box pages">
+                        <h2 class="widget-title">Pages</h2>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="services.html">Shop</a></li>
+                            <li><a href="news.html">News</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box subscribe">
+                        <h2 class="widget-title">Subscribe</h2>
+                        <p>Subscribe to our mailing list to get the latest updates.</p>
+                        <form action="index.html">
+                            <input type="email" placeholder="Email">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end footer -->
+
+    <!-- copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>, All Rights
+                        Reserved.<br>
+                        Distributed By - <a href="https://themewagon.com/">Themewagon</a>
+                    </p>
+                </div>
+                <div class="col-lg-6 text-right col-md-12">
+                    <div class="social-icons">
+                        <ul>
+                            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-dribbble"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Razor Payment
+        $("#checkout-form").submit((e) => {
+            let payment = $('input[name=peymentMethod]:checked').val();
+            let address = $('input[name=selectAddress]:checked').val();
+            e.preventDefault();
+            if (!payment) {
+                document.getElementById("addressError").innerHTML = "Choose any peyment"
+            } else if (!address) {
+                document.getElementById("errorMssg").innerHTML = "Choose the Address"
+            }
+            $.ajax({
+                type: "POST",
+                url: '/checkOut',
+                data: {
+                    selectAddress: address,
+                    peymentMethod: payment
+                },
+                success: (response) => {
+                    if (response.success) {
+                        location.href = '/orderConfirmation'
+                        console.log(response)
+                    } else {
+                        razorPayment(response.order)
+                        console.log(response.order)
+                    }
+                },
+            })
+        })
+        function razorPayment(order) {
+            var options = {
+                "key": "rzp_test_pwqiB91197FvWl", // Enter the Key ID generated from the Dashboard
+                "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "currency": "INR",
+                "name": "Fruitkha", //your business name
+                "description": "Test Transaction",
+                "image": "assets/img/favicon.png",
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+                    verifyPayment(response, order)
+                },
+                "prefill": {
+                    "name": "userData.name",
+                    "email": "userData.email",
+                    "contact": "userData.mobile"
+                },
+                "notes": {
+                    "address": "Fruitkha Corporate Office"
+                },
+                "theme": {
+                    "color": ""
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+        function verifyPayment(order, payment) {
+            $.ajax({
+                type: "POST",
+                url: "/verifyPayment",
+                data: {
+                    order,
+                    payment
+                },
+                success: function (response) {
+                    if (response.success) {
+                        location.href = '/orderConfirmation'
+                    } else {
+                        console.log('Order Failed')
+                    }
+                }
+            })
+        }
+    </script>
+    <script>
+        function applyCoupon() {
+            const couponCode = document.getElementById("couponId").value
+            $.ajax({
+                type: 'POST',
+                url: "/applyCoupon",
+                data: {
+                    coupon: couponCode
+                },
+                success: function (response) {
+                    if (response.success) {
+                        if(response.userData){
+                            document.getElementById('couponErr').innerHTML = "Coupon is Already Redeemed"
+                        }else if (response.message) {
+                            document.getElementById('couponErr').innerHTML = "Coupon Climed"
+                        } else if (response.minPrice) {
+                            document.getElementById('couponErr').innerHTML = 'Purchase above  ₹' + response.max
+                        } else if (response.expired) {
+                            document.getElementById('couponErr').innerHTML = 'Entered Coupon is Expired'
+                        } else {
+                            if (response.coupon.couponType == 'Persentage') {
+                                let total = document.getElementById('totalPrice').innerHTML;
+                                let couponPersantage = response.coupon.discountPrice
+                                let discount =(Number(total)/100)*couponPersantage;
+                                console.log(Number(total));
+                                let maxDiscount = response.coupon.maxDiscount
+                                if(discount > maxDiscount){
+                                    discount = maxDiscount
+                                }
+                                document.getElementById('discountValue').innerHTML = discount
+                                document.getElementById('totalPrice').innerHTML = Number(total) - discount
+                                document.getElementById('applyButton').innerHTML = "Remove"
+                                document.getElementById('couponId').disabled = true
+                            } else {
+                                document.getElementById('discountValue').innerHTML = response.coupon.discountPrice 
+                                let total = document.getElementById('totalPrice').innerHTML;
+                                document.getElementById('totalPrice').innerHTML = Number(total) - response.coupon.discountPrice
+                                document.getElementById('applyButton').innerHTML = "Remove"
+                                document.getElementById('couponId').disabled = true
+                            }
+                        }
+                    } else {
+                        if (response.applied) {
+                            let couponDis = document.getElementById("discountValue").innerHTML;
+                            let totalPrice = document.getElementById("totalPrice").innerHTML;
+                            document.getElementById("totalPrice").innerHTML = (Number(totalPrice) + Number(couponDis))
+                            document.getElementById("discountValue").innerHTML = "00.00";
+                            document.getElementById("applyButton").innerHTML = "Apply";
+                            document.getElementById("couponId").value = "";
+                            document.getElementById("couponId").disabled = false;
+                        } else {
+                            document.getElementById("couponErr").innerHTML = "The Coupon code you entered is not valid."
+                        }
+
+                    }
+                }
+            })
+        }
+    </script>
+    <%- include("../layout/homeFooter.ejs") %>

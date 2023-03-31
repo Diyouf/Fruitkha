@@ -1,0 +1,233 @@
+<%- include("../layout/homeHeader.ejs") %>
+
+
+    <!--PreLoader Ends-->
+
+    <!-- header -->
+    <div class="top-header-area" id="sticker">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <div class="main-menu-wrap">
+                        <!-- logo -->
+                        <div class="site-logo">
+                            <a href="index.html">
+                                <img src="assets/img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <!-- logo -->
+
+                        <!-- menu start -->
+                        <nav class="main-menu">
+                            <ul>
+                                <li class="current-list-item"><a href="/">Home</a>
+
+                                </li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="/shop">Shop</a></li>
+                                <li><a href="/cart">Cart</a></li>
+                                <li><a href="/wishList">WishList</a></li>
+                                <li>
+                                    <div class="header-icons">
+                                        <% if(typeof userData !="undefined" ){ %>
+                                            <a class="dropks" href="">
+
+                                                <%= userData.name %>
+
+                                            </a>
+                                            <ul class="sub-menu">
+                                                <li><a href="/userProfile">Profile</a></li>
+                                                <li><a href="/orderList">Orders</a></li>
+                                                <li><a href="/userAddress">Address</a></li>
+                                                <li><a href="/logout"><button class="btn"
+                                                            style="background-color: orange;">Logout</button></a></li>
+
+                                            </ul>
+                                            <% }else{ %>
+                                                <a href="/login">login</a>
+                                                <% } %>
+
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                        <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                        <div class="mobile-menu"></div>
+                        <!-- menu end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- breadcrumb-section -->
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <h1>Wishlist</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end breadcrumb section -->
+
+    <!-- cart -->
+    <div class="cart-section mt-150 mb-150">
+        <% if(typeof userData !=='undefined' ){ %>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="cart-table-wrap">
+                            <% if(typeof wishData == 'undefined' || wishData.length ===0) {%>
+
+                                
+                                <h2>Wish List is Empty</h2>
+                                <div class="cart-buttons ">
+                                    <a href="/shop" class="boxed-btn">Continue Shopping</a>
+                                </div>
+                                <% }else{ %>
+                                    <table class="cart-table">
+                                        <thead class="cart-table-head">
+                                            <tr class="table-head-row">
+                                                <th class="product-remove">Remove</th>
+                                                <th class="product-name"><b>product Image </b></th>
+                                                <th class="product-name"><b>product Name </b></th>
+                                                <th class="product-price"><b>Sale Price</b></th>
+                                                <th class="product-quantity"><b>Move to cart</b></th>
+    
+                                            </tr>
+                                        </thead>
+                                        <% wishData.forEach((product)=>{ %>
+                                            <tbody>
+                                                <td class="product-remove"><a
+                                                        href="/removeWishpro/?id=<%= product.productId._id %>"><i
+                                                            class="far fa-window-close"></i></a>
+                                                <td class="product-image">
+                                                    <img src="/ProductImage/<%= product.productId.image[0] %>" alt="">
+                                                </td>
+                                                <td class="text-center">
+                                                    <%= product.productId.productName%>
+                                                </td>
+                                                <td class="text-center">
+                                                    ₹ <%= product.productId.salePrice%>
+                                                </td>
+                                                <td><a href="/moveToCart/?id=<%= product.productId._id %>"
+                                                        class="btn btn-dark"><svg xmlns="http://www.w3.org/2000/svg"
+                                                            width="16" height="16" fill="white" class="bi bi-cart-plus"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z" />
+                                                            <path
+                                                                d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                                        </svg></a></td>
+                                            </tbody>
+                                            <% }) %>
+                                    </table>
+                                    <% } %>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <% }else{ %>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-12">
+                            <div class="cart-table-wrap">
+                                <h2>Login Your Acount</h2>
+                                <div class="cart-buttons ">
+                                    <a href="/login" class="boxed-btn">login Account</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <% } %>
+    </div>
+    <!-- end cart -->
+
+
+
+    <!-- footer -->
+    <div class="footer-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box about-widget">
+                        <h2 class="widget-title">About us</h2>
+                        <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                            doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box get-in-touch">
+                        <h2 class="widget-title">Get in Touch</h2>
+                        <ul>
+                            <li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+                            <li>support@fruitkha.com</li>
+                            <li>+00 111 222 3333</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box pages">
+                        <h2 class="widget-title">Pages</h2>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="services.html">Shop</a></li>
+                            <li><a href="news.html">News</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-box subscribe">
+                        <h2 class="widget-title">Subscribe</h2>
+                        <p>Subscribe to our mailing list to get the latest updates.</p>
+                        <form action="index.html">
+                            <input type="email" placeholder="Email">
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end footer -->
+
+    <!-- copyright -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>, All Rights
+                        Reserved.<br>
+                        Distributed By - <a href="https://themewagon.com/">Themewagon</a>
+                    </p>
+                </div>
+                <div class="col-lg-6 text-right col-md-12">
+                    <div class="social-icons">
+                        <ul>
+                            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-dribbble"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include("../layout/homeFooter.ejs") %>

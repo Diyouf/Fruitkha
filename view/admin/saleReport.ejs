@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+
+
+    <title>Document</title>
+
+    <link rel="icon" type="image/x-icon" href="/adminAssets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="/adminAssets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/adminAssets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/adminAssets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/adminAssets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/adminAssets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <link rel="stylesheet" href="/adminAssets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Helpers -->
+    <script src="/adminAssets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/adminAssets/js/config.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+
+
+
+
+
+</head>
+
+<body>
+
+
+    <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+            </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <!-- Search -->
+            <form action="">
+                <div class="navbar-nav align-items-center">
+                    <div class="nav-item d-flex align-items-center">
+                        <i class="bx bx-search fs-4 lh-0"></i>
+                        <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                            aria-label="Search..." name="search" />
+                    </div>
+                </div>
+            </form>
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+
+
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown">
+
+                    <a class="nav-link dropdown-toggle hide-arrow" href="/admin/adminLogout">
+                        <button type="button" class="btn btn-warning">Logout</button>
+                    </a>
+                </li>
+                <!--/ User -->
+            </ul>
+        </div>
+    </nav>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><a href="/admin/home"><span class="text-muted fw-light">home/</a></span> Sales
+            Report
+
+        </h4>
+
+        <!-- Content -->
+        <div class="container mt-3 py-5">
+            <form action="/admin/salesPdf" method="POST">
+
+                <div class="mx-2 mb-3 row">
+                    <div class=" row col-md-4">
+                        <label for="html5-text-input" class="col-md-4 col-form-label mt-3">From date:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="date" name="fromDate" value="" id="fromDate" />
+                        </div>
+                    </div>
+                    <div class=" row col-md-4">
+                        <label for="html5-text-input" class="col-md-4 col-form-label mt-3">To date:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="date" name="toDate" value="" id="toDate" />
+                            <p class="text text-danger" id="date"></p>
+                        </div>
+                    </div>
+                    <% if(typeof orderData !='undefined' ){ %>
+                        <div class=" col-md-2 ms-auto">
+                            <button id="btn" class="btn btn-primary" type="submit"
+                                style="text-decoration: none;">Download <i><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="16" height="16" fill="currentColor" class="bi bi-download"
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                                        <path
+                                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                                    </svg></i></button>
+                        </div>
+                        <% } %>
+                </div>
+
+
+                <table id="couponTable" class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Order Id</th>
+                            <th>Products</th>
+                            <th>Date</th>
+                            <th>Order status</th>
+                            <th>Peyment Method</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableDatas">
+                        <% if(orderData.length !=0){ %>
+                            <% orderData.forEach((item)=>{ %>
+                                <tr>
+                                    <td>
+                                        #<%= item._id %>
+                                    </td>
+                                    <td>
+                                        <% item.productData.forEach((product)=>{ %>
+                                            <%= product.productId.productName %>
+                                                x<%= product.quantity %> <br>
+                                                    <% }); %> <br>
+                                    </td>
+                                    <td>
+                                        <%= item.date.toLocaleDateString("en-US", {day: 'numeric' , month: 'long' ,
+                                            year: 'numeric' }) %>
+                                    </td>
+                                    <td>
+                                        <%= item.status %>
+                                    </td>
+                                    <td>
+                                        <%= item.peymentMethod %>
+                                    </td>
+                                    <td>₹<%= item.dicountTotal %>
+                                    </td>
+
+                                </tr>
+                                <% }) %>
+                                    <% }else{ %>
+                                        <p class="text-center">No Data Found</p>
+                                        <% } %>
+
+
+                    </tbody>
+
+                </table>
+                <p id="errMsg" class="text-center"></p>
+        </div>
+    </div>
+    </form>
+
+
+
+
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/adminAssets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/adminAssets/vendor/libs/popper/popper.js"></script>
+    <script src="/adminAssets/vendor/js/bootstrap.js"></script>
+    <script src="/adminAssets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/adminAssets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="/adminAssets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="/adminAssets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/adminAssets/js/dashboards-analytics.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+
+
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+
+
+    <script>
+        function dateFilter(date1, date2) {
+            const fromDate = new Date(date1);
+            const toDate = new Date(date2);
+
+            if (toDate.getTime() < fromDate.getTime()) {
+                document.getElementById('date').innerHTML = "To date Must be Greater than From Date";
+                document.getElementById('btn').style.display = 'none';
+            } else {
+                document.getElementById('date').innerHTML = '';
+                document.getElementById('btn').style.display = 'block';
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/dateFilter',
+                data: {
+                    date1: fromDate,
+                    date2: toDate
+                },
+                success: (response) => {
+
+                    $('#tableDatas').html('');
+                    if (response.orderData) {
+
+                        const orderData = response.orderData;
+                        if (orderData.length != 0) {
+                            document.getElementById('btn').style.display = 'block';
+                            document.getElementById('errMsg').innerHTML = ''
+                            orderData.forEach((order) => {
+                                const date = new Date(order.date)
+                                const formattedDate = date.toISOString().slice(0, 10);
+                                let productName;
+                                let quantity;
+                                order.productData.forEach((product) => {
+                                    productName = product.productId.productName;
+                                    quantity = product.quantity
+
+                                })
+                                $('#tableDatas').append(`
+                            <tr>
+                                <td>
+                                    ${order._id}
+                                </td>
+                                <td>
+                                    ${productName} x${quantity}<br>
+                                </td>
+                                <td>
+                                    ${formattedDate}
+                                </td>
+                                <td>
+                                  ${order.status}
+                                </td>
+                                <td>
+                                      ${order.peymentMethod}
+                                </td>
+                                <td>
+                                    ₹ ${order.dicountTotal}
+                                </td>
+                            </tr>
+                        
+                        `)
+                            })
+                        } else {
+                            document.getElementById('btn').style.display = 'none';
+                            document.getElementById("errMsg").innerHTML = "No Data Found"
+                        }
+                    } else {
+                        location.reload()
+                    }
+                }
+            })
+
+
+
+        }
+        const date1 = document.getElementById('fromDate')
+        const date2 = document.getElementById('toDate')
+
+        date1.addEventListener("change", function () {
+            dateFilter(date1.value, date2.value)
+
+        })
+        date2.addEventListener("change", function () {
+            dateFilter(date1.value, date2.value)
+
+        })
+    </script>
+
+</body>
+
+</html>

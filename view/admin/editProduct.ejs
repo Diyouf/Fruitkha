@@ -1,0 +1,100 @@
+<%- include('../layout/adminHeader.ejs') %>
+
+    <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4"><a href="/admin/productViewAdmin"><span
+                        class="text-muted fw-light">products/</a></span> Edit product</h4>
+
+            <!-- Basic Layout & Basic with Icons -->
+            <div class="card mb-4 container mt-5">
+                <h5 class="card-header text-center">Product Add Form</h5>
+                <form action="" method="post" enctype="multipart/form-data">
+                     <input type="hidden" name="id" value="<%= product._id %>"> 
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <div class="col-md-12">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Product Name</label>
+                                <input class="form-control" type="text" name="productName" id="html5-text-input"
+                                    value="<%= product.productName %>" />
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-12">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Price</label>
+                                <input class="form-control" type="text" name="price" id="html5-text-input"
+                                    value="<%= product.price %>" />
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-12">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">salePrice</label>
+                                <input class="form-control" type="text" name="salePrice" id="html5-text-input"
+                                    value="<%= product.salePrice %>" />
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-12">
+                                <label for="exampleFormControlSelect1" class="col-form-label col-md-2">Quantity</label>
+                                <input type="number" class="form-select" id="exampleFormControlSelect1" name="quantity"
+                                    value="<%= product.quantity %>">
+                                </input>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-12">
+                                <label for="exampleFormControlSelect1" class="col-form-label col-md-2">Category</label>
+                                <select  class="form-select" name="category" id="exampleFormControlSelect1"
+                                    aria-label="Select Category">
+                                    <% categoryData.forEach((category)=> { %>
+                                        <option selected value="" hidden disabled><%= product.category.categoryName %></option>
+                                        <option  value="<%= category._id %>">
+                                            <%= category.categoryName %>
+                                        </option>
+                                        <% }) %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col-md-12">
+                            <label for="formFile" class="col-form-label col-md-2">Image upload</label>
+                            <input class="form-control" type="file" id="formFile" name="image" multiple
+                                value="<%= product.image %>" />
+                                <% product.image.forEach(image => {%>
+                                    <img src="/productImage/<%= image %>" width="10%" alt="">
+                                    <a href="/admin/deleteImage/?id=<%= image %>" class="btn btn-dark">delete</a>
+                                <%}); %>
+                               
+                                
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+
+                        <div class="col-md-12">
+                            <label for="exampleFormControlTextarea1" class="col-form-label col-md-2">Description</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="description"
+                                ><%= product.description %> </textarea>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end">
+                        <% if(typeof message!='undefined' ){ %>
+
+                            <p style="color: rgb(160, 20, 10);">
+                                <%= message %>
+                            </p>
+
+                            <% } %>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                    </div>
+            </div>
+
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <%- include('../layout/adminFooter.ejs') %>

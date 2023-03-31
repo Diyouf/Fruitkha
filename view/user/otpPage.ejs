@@ -1,0 +1,119 @@
+<%- include("../layout/otpHeader.ejs") %>
+  <style>
+    .card {
+      width: 350px;
+      padding: 10px;
+      border-radius: 20px;
+      background: #fff;
+      border: none;
+      height: 350px;
+      position: relative;
+    }
+
+    .container {
+      height: 100vh;
+    }
+
+    body {
+      background: #eee;
+    }
+
+    .mobile-text {
+      color: #989696b8;
+      font-size: 15px;
+    }
+
+    .form-control {
+      margin-right: 12px;
+    }
+
+    .form-control:focus {
+      color: #495057;
+      background-color: #fff;
+      border-color: #ff8880;
+      outline: 0;
+      box-shadow: none;
+    }
+
+    .cursor {
+      cursor: pointer;
+    }
+  </style>
+  <% if(typeof message !=="undefined" ){ %>
+  <div class="alert alert-danger" role="alert">
+    
+       
+        <%= message %>
+      
+      
+  </div>
+  <% } %>
+  <form action="" method="post">
+
+    <div class="d-flex justify-content-center align-items-center container">
+      <div class="card py-5 px-3">
+        <h5 class="m-0">Mobile phone verification</h5><span class="mobile-text">Enter the code we just send on your
+          mobile
+          phone <b class="text-danger">
+            <% if(typeof number !=="undefined" ){ %>
+              
+                
+                   
+                <%= "+91 " + number %>
+                  
+                  
+              
+              <% } %>
+         
+          </b></span>
+        <a href="/otpNo." style="font-weight: bold;">change</a>
+        <div class="d-flex flex-row mt-5"><input type="text" name="otp" class="form-control mb-3"></div>
+        <div class="form-group form-button d-flex">
+          <input type="submit" id="signin" class="btn btn-danger mt-5" value="verify" />
+          <div class="mx-5 mt-5"><span class="d-block mobile-text">Don't receive the code?</span><a id="resend-link" href="/resend"><span class="font-weight-bold text-danger cursor">Resend</span><span id="timer">s</span></a></div>
+        </div>
+
+        
+      </div>
+    </div>
+
+  </form>
+<script>
+  let resendLink = document.getElementById('resend-link');
+    let timerElement = document.getElementById('timer');
+    let timer = 30; // Set the timer to 60 seconds
+
+    function startTimer() {
+        timer--;
+        if (timer >= 0) {
+            timerElement.innerHTML = `(${timer}s)`;
+            setTimeout(startTimer, 1000); // Call the function again after 1 second
+        } else {
+            resendLink.style.color = 'red'
+            resendLink.style.pointerEvents = 'auto'
+            timerElement.style.display = 'none'; // Hide the timer
+            timer = 60; // Reset the timer to 60 seconds
+        }
+    }
+
+    window.onload = () => {
+        resendLink.style.pointerEvents = 'none'; // Hide the resend link
+        resendLink.style.color = '#696969'
+        startTimer();
+
+    };
+
+    // Call the function to start the timer when the resend link is clicked
+    resendLink.addEventListener('click', () => {
+        resendLink.style.pointerEvents = 'none';
+        resendLink.style.color = '#696969'
+        timerElement.style.display = 'inline-block'; // Show the timer
+        startTimer();
+        // code to resend the OTP
+
+    });
+
+</script>
+
+
+  <%- include("../layout/otpFooter.ejs") %>

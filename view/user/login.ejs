@@ -1,0 +1,43 @@
+<%- include('../layout/header.ejs') %>
+
+<section class="sign-in">
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-image">
+                <figure><img src="images\pngtree-adult-male-farmer-with-a-large-pear-png-image_5003067.png" alt="sing up image"></figure>
+                <a href="/register" class="signup-image-link">Create an account</a>
+            </div>
+
+            <div class="signin-form">
+                <h2 class="form-title">Sign in</h2>
+                <form method="POST" class="register-form" id="login-form" action="">
+                    <div class="form-group">
+                        <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="email" id="your_name" placeholder="Email"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="password" id="your_pass" placeholder="Password"/>
+                    </div>
+                    <% if(typeof Vmessage !=="undefined" ){ %>
+                        <p style="color:rgb(255, 0, 0)">
+                            <%= Vmessage %>
+                        </p>
+                        <% } %>
+                   
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                    </div>
+                </form>
+                <div class="social-login">
+                    <a class="social-label">Or login with</a>
+                    <ul class="socials">
+                       <a href="/otpNo.">OTP</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../layout/footer.ejs') %>

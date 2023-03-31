@@ -1,0 +1,74 @@
+<%- include('../layout/adminHeader.ejs') %>
+
+    <div class="content-wrapper">
+        <!-- Content -->
+
+        <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4"><a href="/admin/category"><span
+                        class="text-muted fw-light">Category/</a></span> Add Category</h4>
+
+            <!-- Basic Layout & Basic with Icons -->
+            <div class="card mb-4 container mt-5">
+                <h5 class="card-header text-center">Category Add Form</h5>
+                <form action="" method="post"  enctype="multipart/form-data">
+                    <div class="card-body">
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Title</label>
+                                <input class="form-control" type="text" name="title" id="html5-text-input" />
+                                
+                            </div>
+                            <div class="col-md-6">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Persentage</label>
+                                <input class="form-control" type="text" name="persentage" id="html5-text-input" />
+                                
+                            </div>
+
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Image File</label>
+                                <input class="form-control" type="file" id="formFile" name="image" accept=".jpg,.png" multiple />
+                                
+                            </div>
+                            <div class="col-md-6">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Sub head</label>
+                                <input class="form-control" type="text" name="subHead" id="html5-text-input" />
+                                
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="mb-3 row">
+
+                            <div class="col-md-12">
+                                <label for="html5-text-input" class="col-md-2 col-form-label">Description</label>
+                                <textarea class="form-control" type="text" name="Description"
+                                    id="html5-text-input"></textarea>
+                                
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-end">
+                            <div class="col-sm-12">
+                                <% if(typeof message!='undefined' ){ %>
+
+                                    <p style="color: rgb(160, 20, 10);">
+                                      <%= message %>
+                                    </p>
+                    
+                                    <% } %>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- / Content -->
+    </div>
+
+    <%- include('../layout/adminFooter.ejs') %>

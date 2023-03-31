@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+
+
+    <title>Document</title>
+
+    <link rel="icon" type="image/x-icon" href="/adminAssets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="/adminAssets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/adminAssets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/adminAssets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/adminAssets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/adminAssets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <link rel="stylesheet" href="/adminAssets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Helpers -->
+    <script src="/adminAssets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/adminAssets/js/config.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+
+
+
+
+
+</head>
+
+<body>
+
+
+    <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+            </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <!-- Search -->
+            <form action="">
+                <div class="navbar-nav align-items-center">
+                    <div class="nav-item d-flex align-items-center">
+                        <i class="bx bx-search fs-4 lh-0"></i>
+                        <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                            aria-label="Search..." name="search" />
+                    </div>
+                </div>
+            </form>
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown">
+
+                    <a class="nav-link dropdown-toggle hide-arrow" href="/admin/adminLogout">
+                        <button type="button" class="btn btn-warning">Logout</button>
+                    </a>
+                </li>
+                <!--/ User -->
+            </ul>
+        </div>
+    </nav>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><a href="/admin/userOrder"><span class="text-muted fw-light">Order List/</a></span> Order
+            View
+        </h4>
+
+        <!-- Content -->
+        <div class="container mt-3 py-5">
+            <h5 class="text-end">order Id : #<%= productDetails._id %> </h5>
+            <h6 class="text-end">Total : ₹<%= productDetails.dicountTotal %></h6>
+
+                <h5>Shipping Address</h5>
+            <% UserAddress.forEach((UserAddress)=>{ %>
+            <div class="card-body">
+                <p class="fw-bold">
+                    <b>
+                        <%= UserAddress.fullName %>
+                    </b>
+                </p>
+                <p>
+                    <%= UserAddress.mobile %>
+
+                </p>
+                <p>
+                    <%= UserAddress.address %>
+                </p>
+                <p>
+                    <%= UserAddress.landMark %>
+
+                        <%= UserAddress.city %>,<%= UserAddress.state %>-<%= UserAddress.pincode
+                                    %>
+                </p>
+            </div>
+            <% }) %>
+            <hr>
+            <% if(productDetails.status=="Cancelled"){ %>
+                <span class="btn btn-outline-warning mb-3">Canceled</span>
+                <% }else if(productDetails.status=="Returned"){ %>
+                    <span class="btn btn-outline-danger mb-3">Returned</span>
+                    <% }else if(productDetails.status=="Delivered"){ %>
+                        <span class="btn btn-outline-success mb-3">Delivered</span>
+                        <% }else{ %>
+                        <form action="" method="post" class="d-flex">
+                        
+                            <div class="col-md-2 mb-3">
+                                <label for="">Update Status</label>
+                                <input type="text" name="orderId" hidden value="<%= productDetails._id %>">
+                                <select class="form-select" id="validationCustom04" name="status" required>
+                                    <option selected disabled value="">Choose...</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="out for Delivery">out for Delivery</option>
+                                    <option value="Delivered">Delivered</option>
+                                </select>
+                            </div>
+                            <button href="" type="submit" class="btn btn-dark mb-3 mt-4 mx-3 ">Submit</button>
+                        </form>
+                   
+                    <% } %>
+
+
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Product Image</th>
+                                    <th>Product Name</th>
+                                    <th>Sale Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total Price</th>
+                                    <th>status</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <% produts.forEach((product)=>{ %>
+                            <tbody>
+                                <td style="width:10%"><img src="/productImage/<%= product.productId.image[0]%>"
+                                        style="width: 50%; height: 50%;">
+                                </td>
+                                <td class="text-center">
+                                    <%= product.productId.productName%>
+                                </td>
+                                <td class="text-center">
+                                    ₹ <%= product.productId.salePrice%>
+                                </td>
+                                <td>
+                                    <%= product.quantity %>
+                                </td>
+                                <td class="product-total">₹<%= product.total %>
+                                </td>
+                                <td class="product-total">
+                                    <%= productDetails.status %>
+                                </td>
+
+                            </tbody>
+                            <% }) %>
+                                </tbody>
+
+                        </table>
+
+
+        </div>
+    </div>
+
+
+
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/adminAssets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/adminAssets/vendor/libs/popper/popper.js"></script>
+    <script src="/adminAssets/vendor/js/bootstrap.js"></script>
+    <script src="/adminAssets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/adminAssets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="/adminAssets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="/adminAssets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/adminAssets/js/dashboards-analytics.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+
+
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable();
+        });
+    </script>
+
+</body>
+
+</html>

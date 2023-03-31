@@ -1,0 +1,104 @@
+<%- include("../layout/homeHeader.ejs") %>
+<div class="top-header-area" id="sticker">
+    <div class="container" >
+        <div class="row">
+            <div class="col-lg-12 col-sm-12 text-center">
+                <div class="main-menu-wrap">
+                    <!-- logo -->
+                    <div class="site-logo">
+                        <a href="index.html">
+                            <img src="assets/img/logo.png" alt="">
+                        </a>
+                    </div>
+                    <!-- logo -->
+
+                    <!-- menu start -->
+                    <nav class="main-menu">
+                        <ul>
+                            <li class="current-list-item"><a href="/">Home</a>
+                                
+                            </li>
+                            <li><a href="/about">About</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="/shop">Shop</a></li>
+                            <li><a href="/cart">Cart</a></li>
+                            <li><a href="/wishList">WishList</a></li>
+                            <li>
+                                <div class="header-icons">
+                                    <a class="dropks" href=""><%= userData.name %></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="/userProfile">Profile</a></li>
+                                        <li><a href="/orderList">Orders</a></li>
+                                        <li><a href="/userAddress">Address</a></li>
+                                        <li><a href="/logout"><button class="btn" style="background-color: orange;">Logout</button></a></li>
+                                        
+                                    </ul>
+                                       
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                    <div class="mobile-menu"></div>
+                    <!-- menu end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="breadcrumb-section breadcrumb-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+                <div class="breadcrumb-text">
+                    <p>Fresh and Organic</p>
+                    <h1>Edit User</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="container-fluid mt-5">
+        <div class="row py-5 justify-content-center">
+            <div class="col col-lg-10">
+                <div class="card mt-5">
+                    <div class="card-body">
+                      
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6 m-5">
+
+                                <div class="card card-body">
+                                    <form class="row g-3 needs-validation" method="post">
+                                        <div class="col-md-6">
+                                            <label for="validationCustom01" class="form-label">
+                                                Name</label>
+                                            <input type="text" class="form-control" id="validationCustom01"
+                                                name="name" value="<%= userData.name %>" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="validationCustom02" class="form-label">
+                                                Email</label>
+                                            <input type="text" class="form-control" id="validationCustom02"
+                                                name="email" value="<%= userData.email %>" required>
+                                        </div>
+                                        <% if(typeof message!='undefined' ){ %>
+
+                                            <p  style="color: rgb(231, 27, 12);margin-left: 17px;">
+                                              <%= message %>
+                                            </p>
+                            
+                                            <% } %>                                        
+                                        <div class="col-12">
+                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../layout/homeFooter.ejs") %>

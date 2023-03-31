@@ -1,0 +1,343 @@
+<%- include("../layout/homeHeader.ejs") %>
+
+    <!--PreLoader Ends-->
+
+
+
+    <div class="top-header-area" id="sticker">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <div class="main-menu-wrap">
+                        <!-- logo -->
+                        <div class="site-logo">
+                            <a href="index.html">
+                                <img src="assets/img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <!-- logo -->
+
+                        <!-- menu start -->
+                        <nav class="main-menu">
+                            <ul>
+                                <li class="current-list-item"><a href="/">Home</a>
+
+                                </li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="/shop">Shop</a></li>
+                                <li><a href="/cart">Cart</a></li>
+                                <li><a href="/wishList">WishList</a></li>
+                                <li>
+                                    <div class="header-icons">
+                                        <% if(typeof userData !="undefined" ){ %>
+                                            <a class="dropks" href="">
+
+                                                <%= userData.name %>
+
+                                            </a>
+                                            <ul class="sub-menu">
+                                                <li><a href="/userProfile">Profile</a></li>
+                                                <li><a href="/orderList">Orders</a></li>
+                                                <li><a href="/userAddress">Address</a></li>
+                                                <li><a href="/logout"><button class="btn"
+                                                            style="background-color: orange;">Logout</button></a></li>
+
+                                            </ul>
+                                            <% }else{ %>
+                                                <a href="/login">login</a>
+                                                <% } %>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </nav>
+                        <a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
+                        <div class="mobile-menu"></div>
+                        <!-- menu end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- breadcrumb-section -->
+    <div class="breadcrumb-section breadcrumb-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2 text-center">
+                    <div class="breadcrumb-text">
+                        <p>Fresh and Organic</p>
+                        <h1>Shop</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end breadcrumb section -->
+    <% if(typeof message!='undefined' ){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= message %>
+        </div>
+
+        <% } %>
+            <!-- products -->
+            <div class="product-section mt-150 mb-150">
+                <div class="container">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul>
+                                <li style="list-style-type: none;">
+                                    <label for=""><b>Sort:</b> </label>
+                                    <select onchange="categoryFilter('')" name="sort" id="sort"
+                                        class="col-sm-2 form-control" >
+                                        <option  value="">Sort By Price</option>
+                                        <option value="lowTohigh">low to high</option>
+                                        <option value="highTolow">high to low</option>
+                                    </select>
+                                </li>
+                            </ul>
+                            <div class="product-filters">
+                                
+
+
+                                <ul class="activeCheck">
+                                    <% let all="all" %>
+                                        <li class="active" value="<%= all %>" data-filter="*"><input hidden type="radio"
+                                                id="All" onclick="categoryFilter()" name="filter" value="<%= all %>"
+                                                checked>
+                                            <label style="height: 0;" for="All">All</label>
+                                        </li>
+                                        <% category.forEach((data)=>{ %>
+                                            <li data-filter=".category" value="<%= data._id %>">
+                                                <input type="radio" onclick="categoryFilter()" name="filter"
+                                                    id="<%= data._id %>" value="<%= data._id %>" hidden>
+
+                                                <a style="color:black;text-decoration: none;">
+                                                    <label style="height: 0;" for="<%= data._id %>">
+                                                        <%= data.categoryName %>
+                                                    </label>
+                                                </a>
+                                            </li>
+                                            <% }) %>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row product-lists" id="productDiv">
+                        <% productData.forEach((product)=>{ %>
+                            <div class="col-lg-4 col-md-6 text-center">
+                                <div class="single-product-item">
+                                    <div class="product-image" style="height: 180px;">
+                                        <a href="/productView/?id=<%= product._id %>"><img
+                                                src="/productImage/<%= product.image[0] %>"></a>
+                                    </div>
+                                    <h3>
+                                        <%= product.productName %>
+                                    </h3>
+                                    <p class="product-price"><span>Per Kg</span>
+                                        <%= " ₹" +product.salePrice %>
+                                    </p>
+                                    <% if(typeof userData !=='undefined' ) {%>
+                                        <a href="/addCart/?id=<%= product._id %>" class="cart-btn"><i
+                                                class="fas fa-shopping-cart"></i> Add to Cart</a><br>
+
+                                        <a id="<%= product._id %>" style="color: rgb(42, 42, 42);"
+                                            onclick="addwishlist('<%= product._id %>')" class="bordered-btn mt-3"><svg
+                                                xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="rgb(42, 42, 42)" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd"
+                                                    d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                            </svg> Add to Wishlist</a>
+                                        <% }else{ %>
+                                            <a href='/login' class="cart-btn"><i class="fas fa-shopping-cart"></i> Add
+                                                to Cart</a><br>
+                                            <a href="/login" style="color: rgb(42, 42, 42);"
+                                                class="bordered-btn mt-3"><svg xmlns="http://www.w3.org/2000/svg"
+                                                    width="16" height="16" fill="rgb(42, 42, 42)"
+                                                    class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                                                </svg> Add to Wishlist</a>
+                                            <% } %>
+
+                                </div>
+                            </div>
+                            <% }) %>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <div class="pagination-wrap">
+                                <ul>
+                                    <li><a href="#">Prev</a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a class="active" href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end products -->
+
+
+            <!-- footer -->
+            <div class="footer-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-box about-widget">
+                                <h2 class="widget-title">About us</h2>
+                                <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem
+                                    accusantium
+                                    doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-box get-in-touch">
+                                <h2 class="widget-title">Get in Touch</h2>
+                                <ul>
+                                    <li>34/8, East Hukupara, Gifirtok, Sadan.</li>
+                                    <li>support@fruitkha.com</li>
+                                    <li>+00 111 222 3333</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-box pages">
+                                <h2 class="widget-title">Pages</h2>
+                                <ul>
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/about">About</a></li>
+                                    <li><a href="/shop">Shop</a></li>
+                                    <li><a href="news.html">News</a></li>
+                                    <li><a href="/contact">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-box subscribe">
+                                <h2 class="widget-title">Subscribe</h2>
+                                <p>Subscribe to our mailing list to get the latest updates.</p>
+                                <form action="index.html">
+                                    <input type="email" placeholder="Email">
+                                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end footer -->
+
+            <!-- copyright -->
+            <div class="copyright">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>, All
+                                Rights
+                                Reserved.<br>
+                                Distributed By - <a href="https://themewagon.com/">Themewagon</a>
+                            </p>
+                        </div>
+                        <div class="col-lg-6 text-right col-md-12">
+                            <div class="social-icons">
+                                <ul>
+                                    <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                                    <li><a href="#" target="_blank"><i class="fab fa-dribbble"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+
+                function categoryFilter() {
+                    let filter = $('input[name=filter]:checked').val();
+                    console.log(filter);
+                    const pp = document.getElementById('sort').value
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/categoryFilter',
+                        data: {
+                            id: filter,
+                            sort: pp
+                        },
+                        success: function (productData) {
+
+                            // Generate new HTML from updated productData
+                            let newHTML = '';
+                            productData.forEach(function (product) {
+                                newHTML += `
+          <div class="col-lg-4 col-md-6 text-center ">
+            <div class="single-product-item">
+              <div class="product-image" style="height: 180px;">
+                <a href="/productView/?id=${product._id}"><img src="/productImage/${product.image[0]}"></a>
+              </div>
+              <h3>${product.productName}</h3>
+              <p class="product-price"><span>Per Kg</span> ₹${product.salePrice}</p>
+              <a href="/addCart/?id=${product._id}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a><br>
+              <a style="color: rgb(42, 42, 42);" href="/addWishList/?id=${product._id}" class="bordered-btn mt-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(42, 42, 42)" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
+                </svg> Add to Wishlist
+              </a>
+            </div>
+          </div>
+        `;
+                            });
+                            let newDiv = $(newHTML)
+                            // Update HTML in #productDiv with new HTML
+                            $('#productDiv').empty();
+                            $("#productDiv").removeAttr("style");
+                            $('#productDiv').append(newDiv);
+
+                        }
+                    })
+                }
+
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
+
+            <script>
+                function addwishlist(id) {
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/addWishList/?id=' + id,
+                        success: (res) => {
+                            if (res.success) {
+                                location.href = '/wishList'
+                            } else {
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Already in WishList'
+                                })
+                            }
+                        }
+                    })
+                }
+            </script>
+            
+            <%- include("../layout/homeFooter.ejs") %>

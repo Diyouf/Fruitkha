@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+
+
+    <title>Document</title>
+
+    <link rel="icon" type="image/x-icon" href="/adminAssets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="/adminAssets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/adminAssets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/adminAssets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/adminAssets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/adminAssets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+
+    <link rel="stylesheet" href="/adminAssets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Helpers -->
+    <script src="/adminAssets/vendor/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/adminAssets/js/config.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+
+
+
+
+
+</head>
+
+<body>
+
+
+    <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+        id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+            </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <!-- Search -->
+            <form action="">
+                <div class="navbar-nav align-items-center">
+                    <div class="nav-item d-flex align-items-center">
+                        <i class="bx bx-search fs-4 lh-0"></i>
+                        <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                            aria-label="Search..." name="search" />
+                    </div>
+                </div>
+            </form>
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Place this tag where you want the button to render. -->
+
+
+                <!-- User -->
+                <li class="nav-item navbar-dropdown">
+
+                    <a class="nav-link dropdown-toggle hide-arrow" href="/admin/adminLogout">
+                        <button type="button" class="btn btn-warning">Logout</button>
+                    </a>
+                </li>
+                <!--/ User -->
+            </ul>
+        </div>
+    </nav>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><a href="/admin/home"><span class="text-muted fw-light">home/</a></span> User
+            Orders
+        </h4>
+
+        <!-- Content -->
+        <div class="container mt-3 py-5">
+            <% if(orders.length>0){ %>
+
+            <table class="table table-bordered" id="tableData">
+                <thead class="table-light">
+                    <tr>
+                        <th>User Name</th>
+                        <th>Order Id </th>
+                        <th>user Id </th>
+                        <th>No.of Items</th>
+                        <th>Total Price </th>
+                        <th>Order Status</th>
+                        <th>Peyment Method</th>
+                        <th>Peyment Status</th>
+                        <th>Date</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <% orders.forEach((order)=>{ %>
+                        <tr>
+
+                            <td>
+                                <%= order.userId.name %>
+                            </td>
+                            <td>
+                                <%= order._id %>
+                            </td>
+                            <td>
+                                <%= order.userId._id %>
+                            </td>
+                            <td>
+                                <%= order.productData.length %>
+                            </td>
+                            <td>
+                                ₹<%= order.dicountTotal %>
+                            </td>
+                            <td>
+                                <%= order.status %>
+                            </td>
+                            <td>
+                                <%= order.peymentMethod %>
+                            </td>
+                            <td>
+                                <%= order.paymentStatus %>
+                            </td>
+                            <td>
+                                <%= order.date.toLocaleDateString("en-US", {day: 'numeric', month: 'long', year: 'numeric'}) %>
+                            </td>
+                            <td><a href="/admin/orderView/?id=<%= order._id %>"><svg xmlns="http://www.w3.org/2000/svg"
+                                        width="16" height="16" fill="currentColor" class="bi bi-eye "
+                                        viewBox="0 0 16 16">
+                                        <path
+                                            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                        <path
+                                            d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                    </svg></a></td>
+                        </tr>
+
+                        <% }) %>
+                </tbody>
+
+            </table>
+            <% }else{ %>
+                <h6 >User Order is Empty</h6>
+                
+                <% } %>
+
+        </div>
+    </div>
+
+
+
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/adminAssets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/adminAssets/vendor/libs/popper/popper.js"></script>
+    <script src="/adminAssets/vendor/js/bootstrap.js"></script>
+    <script src="/adminAssets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/adminAssets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="/adminAssets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="/adminAssets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/adminAssets/js/dashboards-analytics.js"></script>
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+
+
+    <script type="text/javascript" charset="utf8"
+        src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tableData').DataTable();
+        });
+    </script>
+
+</body>
+
+</html>
