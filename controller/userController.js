@@ -199,7 +199,7 @@ const verifyLogin = async (req, res, next) => {
 
 const loadHome = async (req, res, next) => {
     try {
-        const productData = await Product.find({})
+        const productData = await Product.find({is_active:true})
         const bannerData = await Banner.find({})
         if (req.session.userLogged) {
             const userData = await User.findOne({ _id: req.session.user_id })
