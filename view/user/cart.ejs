@@ -136,7 +136,7 @@
                                                             min="1" value="<%= product.quantity %>"
                                                             style="width: 30px; text-align: center;">
                                                         <button
-                                                            onclick="changeqnty('<%= userCart._id %>','<%= product.productId._id %>','<%=product._id%>','<%= product.productId.salePrice %>',1)">+</button>
+                                                        id="btn1" onclick="changeqnty('<%= userCart._id %>','<%= product.productId._id %>','<%=product._id%>','<%= product.productId.salePrice %>',1)">+</button>
                                                     </td>
                                                     <td class="product-total">₹<span id="<%= product._id %>">
                                                             <%= product.total %>

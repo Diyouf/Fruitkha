@@ -158,7 +158,6 @@
                                                 <p><b>UPI Payment.</b></p>
                                             </div>
 
-                                            <p id="addressError" style="color:rgb(255, 0, 0)">
 
                                             </p>
 
@@ -172,21 +171,21 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="order-details-wrap">
-                            <table class="order-details">
-                                <thead>
-                                    <tr>
+                    <div class="col-lg-4 ">
+                        <div class="total-section">
+                            <table class="total-table">
+                                <thead class="total-table-head">
+                                    <tr class="table-total-row">
                                         <th>Your order Details</th>
                                         <th>Price</th>
                                     </tr>
                                 </thead>
                                 <tbody class="order-details-body">
-                                    <tr>
+                                    <tr class="total-data">
                                         <td>Product</td>
                                         <td>Total</td>
                                     </tr>
-                                    <tr>
+                                    <tr class="total-data">
                                         <td>Cart total</td>
                                         <td>₹<%= totalSalePrice %>
                                         </td>
@@ -194,15 +193,15 @@
 
                                 </tbody>
                                 <tbody class="checkout-details">
-                                    <tr>
+                                    <tr  class="total-data">
                                         <td>Coupon</td>
                                         <td>-₹<span id="discountValue">0.00</span></td>
                                     </tr>
-                                    <tr>
+                                    <tr class="total-data">
                                         <td>Shipping</td>
                                         <td>free</td>
                                     </tr>
-                                    <tr>
+                                    <tr class="total-data">
                                         <td>Total</td>
                                         <td>₹<span id="totalPrice">
                                                 <%= totalSalePrice %>
@@ -211,7 +210,8 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <button type="submit" class="btn mt-5" 
+                            <p class="mt-3" id="addressError" style="color:rgb(255, 0, 0)"></p>
+                            <button type="submit" class="btn mt-3" 
                                 style="border-radius: 8px;background-color:  #f28123;color: white;width: 130px;height: 50px;">Place
                                 Order</button>
                         </div>
@@ -315,10 +315,10 @@
             let payment = $('input[name=peymentMethod]:checked').val();
             let address = $('input[name=selectAddress]:checked').val();
             e.preventDefault();
-            if (!payment) {
-                document.getElementById("addressError").innerHTML = "Choose any peyment"
-            } else if (!address) {
-                document.getElementById("errorMssg").innerHTML = "Choose the Address"
+            if (!address) {
+                document.getElementById("addressError").innerHTML = "Choose any Address"
+            } else if (!payment) {
+                document.getElementById("errorMssg").innerHTML = "Choose the peyment"
             }
             $.ajax({
                 type: "POST",

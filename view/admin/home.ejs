@@ -252,7 +252,7 @@
                       </div>
                       <span>Order</span>
                       <h3 class="card-title text-nowrap mb-1"><%= orderData %></h3>
-                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small>
+                      <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> </small>
                     </div>
                   </div>
                 </div>
@@ -380,7 +380,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex flex-column align-items-center gap-1">
-                      <h2 class="mb-2">₹<%= peyment %></h2>
+                      <h2 class="mb-2">₹<%= orderData %></h2>
                       <span>Total Orders</span>
                     </div>
                     <div id="orderStatisticsChart"></div>
@@ -397,9 +397,11 @@
                         <div class="me-2">
                           <h6 class="mb-0"><%= item.categoryName %></h6> 
                         </div>
+                        <% for(let i=0;i<categoryPush.length;i++){ %>
                         <div class="user-progress">
-                          <small class="fw-semibold"></small>
+                          <small class="fw-semibold"><%= categoryPush[i] %></small>
                         </div>
+                        <% } %>
                       </div>
                     </li>
                    

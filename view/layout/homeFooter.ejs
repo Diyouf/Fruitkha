@@ -1,4 +1,3 @@
-
 <!-- jquery -->
 <script src="/assets/js/jquery-1.11.3.min.js"></script>
 <!-- bootstrap -->
@@ -139,6 +138,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+    
 
 <script>
     function changeqnty(userCart, productId, id, salePrice, quantity) {
@@ -155,8 +155,30 @@
             },
             success: (response) => {
 
-                if (response.success) {
+                if (response.success) { 
+                    console.log(response.stock)
                     let value = document.getElementById(productId).value
+                    if(Number(value)< Number(response.stock-1)){
+                       document.getElementById("btn1").style.display='inline-block'
+                    }
+                    else {
+                        document.getElementById("btn1").style.display='none'
+                        const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top',
+                                    showConfirmButton: false,
+                                    timer: 4000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                                Toast.fire({
+                                    icon: 'warning',
+                                    title: 'Enough,No Stock Left'
+                                })
+                    }
                     document.getElementById(productId).value = Number(value) + 1
                     document.getElementById(id).innerHTML = response.total + Number(salePrice)
                     let st = document.getElementById("totalSP").innerHTML;
@@ -166,6 +188,27 @@
 
                 } else if (response.success == false) {
                     let value = document.getElementById(productId).value
+                    if(Number(value)!== Number(response.stock-1)){
+                       document.getElementById("btn1").style.display='inline-block'
+                    }
+                    else {
+                        document.getElementById("btn1").style.display='none'
+                        const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Already in WishList'
+                                })
+                    }
                     document.getElementById(productId).value = Number(value) - 1
                     document.getElementById(id).innerHTML = response.total - Number(salePrice)
                     let st = document.getElementById("totalSP").innerHTML;

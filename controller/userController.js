@@ -620,6 +620,7 @@ const uploadEdit = async (req, res, next) => {
 const changeQuantity = async (req, res, next) => {
     try {
         const productPrice = await Product.findOne({ _id: req.body.productId })
+        
         const userData = req.body.userData
         const productId = req.body.productId
         const quantity = req.body.quantity
@@ -628,12 +629,13 @@ const changeQuantity = async (req, res, next) => {
         const cartData = await Cart.findOneAndUpdate({ _id: userData, 'products.productId': productId }, {})
         const dd = cartData.products.find(item => item.productId == req.body.productId)
         const totalQuantity = dd.quantity + Number(quantity)
-        if (totalQuantity != 0) {
-            const cartData = await Cart.findOneAndUpdate({ _id: userData, 'products.productId': productId }, { $inc: { 'products.$.quantity': quantity } })
+        if (totalQuantity > 0) {
+            await Cart.findOneAndUpdate({ _id: userData, 'products.productId': productId }, { $inc: { 'products.$.quantity': quantity } })
             if (quantity == 1) {
                 const subTotal = dd.total + productPrice.salePrice
+                const stock = productPrice.quantity
                 await Cart.findOneAndUpdate({ _id: req.body.userData, 'products.productId': productId }, { $set: { "products.$.total": Number(subTotal) } })
-                res.json({ success: true, total: dd.total })
+                res.json({ success: true, total: dd.total,stock })
             } else {
                 const subTotal = dd.total - productPrice.salePrice
                 await Cart.findOneAndUpdate({ _id: req.body.userData, 'products.productId': productId }, { $set: { "products.$.total": Number(subTotal) } })

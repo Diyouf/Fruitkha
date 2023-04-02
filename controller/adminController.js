@@ -22,7 +22,8 @@ const path = require('path');
 
 const ejs = require('ejs');
 
-const moment = require("moment")
+const moment = require("moment");
+
 
 const loadAdminLogin = async (req, res) => {
     try {
@@ -64,16 +65,29 @@ const verifyAdmin = async (req, res) => {
 
 const adminDash = async (req, res) => {
     try {
-        const categories = await Category.find({ is_active: true })
+        const categories = await Category.find({})
         const userData = await Users.find({ status: true })
         const user = userData.length
-        const orderDelivered = await Order.find({ status: "Delivered" })
+        const orderDelivered = await Order.find({ status: "Delivered" }).populate('productData.productId')
         const orderData = orderDelivered.length
         const peyment = orderDelivered.map((item) => item.dicountTotal).reduce((a, b) => a + b)
         const product = await Product.find({ is_active: true })
         const pro = product.length
         const orderDetails = await Order.find({})
 
+        const categoryPush = []
+
+        categories.forEach((category) => {
+            const categoryCounts = orderDelivered.reduce((acc, order) => {
+                const productDetails = order.productData;
+                const categoryCount = productDetails.filter(details=> details.productId.category.toString() === category._id.toString()).length;
+                return acc + categoryCount
+                
+            }, 0)
+            categoryPush.push(categoryCounts)
+           
+        })
+        
         const paymentRevenue = {
             CODRevenue: 0,
             onlineRevenue: 0,
@@ -95,8 +109,9 @@ const adminDash = async (req, res) => {
                 paymentRevenue.CODRevenue += order.dicountTotal
             }
         })
+       
 
-        res.render('home', { user, orderData, peyment, pro, paymentRevenue ,categories})
+        res.render('home', { user, orderData, peyment, pro, paymentRevenue ,categories,categoryPush})
     } catch (error) {
         console.log(error.message);
     }
@@ -671,112 +686,28 @@ const graphDetails = async (req, res, next) => {
         }, 0)
 
         
-        const categories = await Category.find({ is_active: true })
-        console.log(categories);
+        const categories = await Category.find({})
         const categoryNames = [];
         const categoryPerc = [];
         categories.forEach((category) => {
             const categoryCount = orderDetails.reduce((acc, order) => {
                 const productDetails = order.productData;
-                console.log(productDetails);
-                // const categoryCount = productDetails.findById(order.productId).populate('category').length;
-                // return acc + categoryCount;
+                const categoryCount = productDetails.filter(details=> details.productId.category.toString() == category._id.toString()).length;
+                return acc + categoryCount;
             }, 0)
+
+            const categoryPercentage = (categoryCount / totalProducts) * 100;
+            categoryNames.push(category.categoryName)
+            categoryPerc.push(categoryPercentage)
             
-            // const categoryPercentage = (categoryCount / totalProducts) * 100;
-            // categoryNames.push(category.categoryName)
-            // categoryPerc.push(categoryPercentage)
         })
-        res.json({ lastSixMonths, orderData, users, incomePerMonth})
+        res.json({ lastSixMonths, orderData, users, incomePerMonth,categoryNames,categoryPerc})
     } catch (error) {
         console.log(error.message)
     }
 }
 
-// const graphDetails = async (req,res,next)=>{
-//     try {
-//         const currentDate = moment();
 
-//         // Subtract six months
-//         const sixMonthsAgo = moment().subtract(6, 'months');
-
-//         // Create an array to hold the six months
-//         const lastSixMonths = [];
-//         const orderSalesCount =[]
-//         const totalUserCount = []
-//         const paymentTotal =[]
-
-//         // orderFind isdelivered only
-//         const orderData = await Order.find({status:"Delivered"}).populate('productDetails.productId')
-//         const orderCount = orderData.length;
-
-//         const totalProducts = orderData.reduce((acc,order)=>{
-//             const productDetails = order.productDetails.length
-//             return acc + productDetails;
-//         },0)
-//         const categories = await Category.find({status:true})
-//         const categoryNames = [];
-//         const categoryPerc = [];
-//         categories.forEach((category)=>{
-//             const categoryCount = orderData.reduce((acc,order)=>{
-//                 const productDetails = order.productDetails;
-//                 const categoryCount = productDetails.filter(details=> details.productId.category.includes(category.categoryName)).length;
-//                 return acc + categoryCount;
-//             },0)
-//             const categoryPercentage = (categoryCount/totalProducts)*100;
-//             categoryNames.push(category.categoryName)
-//             categoryPerc.push(categoryPercentage)
-//         })
-
-//         // Loop through the months and add them to the array
-//         const startDate = moment().subtract(6, 'months').startOf('month');
-//         const endDate = moment().endOf('month');
-
-
-//         for (let date = moment(sixMonthsAgo); date.diff(currentDate, 'months') <= 0; date.add(1, 'month')) {
-//           lastSixMonths.push(date.format('MMM'));
-//           const monthStart = moment(startDate);
-//           const monthEnd = moment(endDate);
-
-
-//           //order count
-//           const monthOrders = orderData.filter(order => moment(order.date).isBetween(monthStart, monthEnd));
-//           const OrderCount = monthOrders.length;
-//           orderSalesCount.push(OrderCount);
-
-//           //user count
-//           const monthUsers = monthOrders.map(order => order.userId);
-//           const userCount = monthUsers.length;
-//           totalUserCount.push(userCount);
-
-//           // payment price count
-//           const monthPayments = monthOrders.map(order => order.totalPrice).reduce((acc,cur)=> acc+=cur,0);
-//           paymentTotal.push(monthPayments)
-
-
-//           startDate.add(1, 'month');
-//           endDate.subtract(1, 'month');
-//         }
-
-//         //for order statitics
-//         const categoryList = [];
-
-//         // Print the array of six months
-//         console.log(lastSixMonths);
-//         orderSalesCount.reverse()
-//         totalUserCount.reverse()
-//         paymentTotal.reverse()
-//         console.log(orderSalesCount)
-//         console.log(totalUserCount)
-//         console.log(paymentTotal)
-//         res.json({orderSalesCount,lastSixMonths,totalUserCount,paymentTotal,categoryNames,categoryPerc,})
-
-
-
-//     } catch (error) {
-//         next(error)
-//     }
-//   }
 
 
 module.exports = {

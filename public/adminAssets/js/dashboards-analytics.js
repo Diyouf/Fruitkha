@@ -5,6 +5,7 @@
 'use strict';
 
 (function () {
+  
   fetch('/admin/graphDetails')
     .then(response => response.json())
     .then(data => {
@@ -21,7 +22,7 @@
         totalRevenueChartOptions = {
           series: [
             {
-              name: '2021',
+              name: 'Orders',
               data: data.orderData
             }
           ],
@@ -428,8 +429,8 @@
             width: 130,
             type: 'donut'
           },
-          labels: ['Electronic', 'Sports', 'Decor', 'Fashion'],
-          series: [85, 15, 50, 50],
+          labels: data.categoryNames,
+          series: data.categoryPerc,
           colors: [config.colors.primary, config.colors.secondary, config.colors.info, config.colors.success],
           stroke: {
             width: 5,
@@ -474,9 +475,9 @@
                     show: true,
                     fontSize: '0.8125rem',
                     color: axisColor,
-                    label: 'Weekly',
+                    label: 'Category',
                     formatter: function (w) {
-                      return '38%';
+                      return '100%';
                     }
                   }
                 }
@@ -579,7 +580,7 @@
             labels: {
               show: false
             },
-            min: 0,
+            min: 1,
             max: 15000,
             tickAmount: 4
           }
