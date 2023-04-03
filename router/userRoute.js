@@ -117,7 +117,10 @@ user_route.post('/categoryFilter',userAuth.isBlocked,userController.categoryFilt
 
 user_route.get('/resendSignUp',userController.resendOtpSignup)
 
-
+// user_route.get('*', async (req, res) => {
+//     res.render('404page');
+//   });
+  
 
 const errorHandler = require('../middleware/errorHandling');
 user_route.use(errorHandler.errorHandler)
