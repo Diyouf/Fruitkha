@@ -520,7 +520,7 @@ const addBanner = async (req, res) => {
 const insertBanner = async (req, res) => {
     try {
 
-        if (!req.body.title.trim() || !req.body.Description.trim() || !req.body.subHead.trim() || !req.body.persentage.trim()) {
+        if (!req.body.title.trim() || !req.body.Description.trim() || !req.body.subHead.trim() || !req.body.Percentage.trim()) {
             res.render('addBanner', { message: "Fields Contain empty or White space" })
         } else {
             const image = req.files[0].filename
@@ -529,7 +529,7 @@ const insertBanner = async (req, res) => {
                 title: req.body.title,
                 description: req.body.Description,
                 subHead: req.body.subHead,
-                Persentage: req.body.persentage,
+                Percentage: req.body.Percentage,
             })
 
             await data.save()

@@ -403,7 +403,7 @@
                         } else if (response.expired) {
                             document.getElementById('couponErr').innerHTML = 'Entered Coupon is Expired'
                         } else {
-                            if (response.coupon.couponType == 'Persentage') {
+                            if (response.coupon.couponType == 'Percentage') {
                                 let total = document.getElementById('totalPrice').innerHTML;
                                 let couponPersantage = response.coupon.discountPrice
                                 let discount =(Number(total)/100)*couponPersantage;

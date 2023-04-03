@@ -380,13 +380,13 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="d-flex flex-column align-items-center gap-1">
-                      <h2 class="mb-2">₹<%= orderData %></h2>
+                      <h2 class="mb-2"><%= orderData %></h2>
                       <span>Total Orders</span>
                     </div>
                     <div id="orderStatisticsChart"></div>
                   </div>
                   <ul class="p-0 m-0">
-                    <% categories.forEach((item)=>{ %>
+                    <% categories.forEach((item,i)=>{ %>
                     <li class="d-flex mb-4 pb-1">
                       <div class="avatar flex-shrink-0 me-3">
                         <span class="avatar-initial rounded bg-label-primary"
@@ -396,17 +396,15 @@
                       <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                         <div class="me-2">
                           <h6 class="mb-0"><%= item.categoryName %></h6> 
-                        </div>
-                        <% for(let i=0;i<categoryPush.length;i++){ %>
+                        </div> 
                         <div class="user-progress">
                           <small class="fw-semibold"><%= categoryPush[i] %></small>
                         </div>
-                        <% } %>
                       </div>
                     </li>
-                   
-                    
                     <% }) %>
+                    
+                   
                     
                   </ul>
                 </div>

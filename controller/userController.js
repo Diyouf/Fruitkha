@@ -681,7 +681,7 @@ const placeOder = async (req, res, next) => {
                 })
                 orderSaved = await order.save()
             } else {
-                if (coupon.couponType == 'Persentage') {
+                if (coupon.couponType == 'Percentage') {
                     let couponPersantage = coupon.discountPrice
                     let discount = (totalSalePrice / 100) * couponPersantage;
                     if (discount > coupon.maxDiscount) {

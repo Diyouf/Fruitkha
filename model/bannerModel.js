@@ -5,7 +5,7 @@ const detailstSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    Persentage:{
+    Percentage:{
         type:Number,
         required:true
     },
