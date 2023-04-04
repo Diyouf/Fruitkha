@@ -80,14 +80,14 @@ const adminDash = async (req, res) => {
         categories.forEach((category) => {
             const categoryCounts = orderDelivered.reduce((acc, order) => {
                 const productDetails = order.productData;
-                const categoryCount = productDetails.filter(details=> details.productId.category.toString() === category._id.toString()).length;
+                const categoryCount = productDetails.filter(details => details.productId.category.toString() === category._id.toString()).length;
                 return acc + categoryCount
-                
+
             }, 0)
             categoryPush.push(categoryCounts)
-           
+
         })
-        
+
         const paymentRevenue = {
             CODRevenue: 0,
             onlineRevenue: 0,
@@ -109,9 +109,9 @@ const adminDash = async (req, res) => {
                 paymentRevenue.CODRevenue += order.dicountTotal
             }
         })
-       
 
-        res.render('home', { user, orderData, peyment, pro, paymentRevenue ,categories,categoryPush})
+
+        res.render('home', { user, orderData, peyment, pro, paymentRevenue, categories, categoryPush })
     } catch (error) {
         console.log(error.message);
     }
@@ -138,7 +138,6 @@ const adminLogout = async (req, res) => {
 
 const productViewAdmin = async (req, res) => {
     try {
-
         const productData = await Product.find({}).populate('category')
         res.render('productview', { productData })
     } catch (error) {
@@ -159,7 +158,7 @@ const uploadProduct = async (req, res) => {
     try {
         const categoryName = await Category.find({})
         const { productName, price, salePrice, quantity, category, description } = req.body;
-        if (!productName.trim() || !price.trim() || !salePrice.trim() || !quantity.trim() || !description.trim() || !req.files || salePrice <= 0 || price <= 0 || quantity <= 0 || isNaN(salePrice)||isNaN(price)||isNaN(quantity)) {
+        if (!productName.trim() || !price.trim() || !salePrice.trim() || !quantity.trim() || !description.trim() || !req.files || salePrice <= 0 || price <= 0 || quantity <= 0 || isNaN(salePrice) || isNaN(price) || isNaN(quantity)) {
             res.render('addProduct', { message: "Check all Fields Properly", categoryName })
         } else {
 
@@ -336,7 +335,6 @@ const insertCategory = async (req, res) => {
 const editCategoryLoad = async (req, res) => {
     try {
         const categoryData = await Category.findById({ _id: req.query.id })
-
         res.render('editCategory', { categoryData })
     } catch (error) {
         console.log(error.message);
@@ -443,6 +441,7 @@ const loadCoupon = async (req, res) => {
     try {
         const couponData = await Coupon.find({})
         res.render('couponList', { couponData })
+
     } catch (error) {
         console.log(error.message);
     }
@@ -467,7 +466,6 @@ const insertCoupon = async (req, res) => {
             discountPrice: req.body.discountPrice,
             maxDiscount: req.body.maxDiscount,
             minUser: req.body.totalUser,
-            status: "Active",
 
         })
         const date = new Date()
@@ -685,23 +683,23 @@ const graphDetails = async (req, res, next) => {
             return acc + productDetails;
         }, 0)
 
-        
+
         const categories = await Category.find({})
         const categoryNames = [];
         const categoryPerc = [];
         categories.forEach((category) => {
             const categoryCount = orderDetails.reduce((acc, order) => {
                 const productDetails = order.productData;
-                const categoryCount = productDetails.filter(details=> details.productId.category.toString() == category._id.toString()).length;
+                const categoryCount = productDetails.filter(details => details.productId.category.toString() == category._id.toString()).length;
                 return acc + categoryCount;
             }, 0)
 
             const categoryPercentage = (categoryCount / totalProducts) * 100;
             categoryNames.push(category.categoryName)
             categoryPerc.push(categoryPercentage)
-            
+
         })
-        res.json({ lastSixMonths, orderData, users, incomePerMonth,categoryNames,categoryPerc})
+        res.json({ lastSixMonths, orderData, users, incomePerMonth, categoryNames, categoryPerc })
     } catch (error) {
         console.log(error.message)
     }

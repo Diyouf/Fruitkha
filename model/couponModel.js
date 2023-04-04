@@ -26,10 +26,6 @@ const couponSchema = new mongoose.Schema({
         type:Date,
         required:true
     },
-    status:{
-        type:String,
-        required:true
-    },
     minPrice:{
         type:Number,
         required:true

@@ -307,7 +307,7 @@ const insertCart = async (req, res, next) => {
                 total: productData.salePrice
             })
 
-            const cartData = await cart.save();
+            await cart.save();
 
             res.redirect('/cart')
         }

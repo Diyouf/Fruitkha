@@ -1,50 +1,56 @@
 <%- include("../layout/homeHeader.ejs") %>
-<style>
-    * {
-        box-sizing: border-box;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    .img-zoom-container-img {
-        position: relative;
-    }
+        .img-zoom-container-img {
+            position: relative;
+        }
 
-    .img-zoom-container-div {
-        position: relative;
+        .img-zoom-container-div {
+            position: relative;
 
-        top: 0;
-        left: 10;
-        z-index: 9999;
-    }
-
-
-    .img-zoom-lens:hover {
-        position: absolute;
-        border: 1px solid #d4d4d4;
-        /*set the size of the lens:*/
-        width: 200px;
-        height: 200px;
-    }
-
-    .img-zoom-lens {
-        position: absolute;
-        border: 1px solid #d4d4d4;
-        /*set the size of the lens:*/
-        width: 200px;
-        height: 200px;
-    }
+            top: 0;
+            left: 10;
+            z-index: 9999;
+        }
 
 
-    .img-zoom-result {
-        position: absolute;
-        top: 0;
-        left: 10;
-        z-index: 9999;
-        border: 1px solid #d4d4d4;
-        /*set the size of the result div:*/
-        width: 400px;
-        height: 500px;
-    }
-</style>
+        .img-zoom-lens:hover {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            /*set the size of the lens:*/
+            width: 200px;
+            height: 200px;
+        }
+
+        .img-zoom-lens {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            /*set the size of the lens:*/
+            width: 200px;
+            height: 200px;
+        }
+
+
+        .img-zoom-result {
+            position: absolute;
+            top: 0;
+            left: 10;
+            z-index: 9999;
+            border: 1px solid #d4d4d4;
+            /*set the size of the result div:*/
+            width: 400px;
+            height: 500px;
+        }
+
+        @media (max-width: 767px) {
+            #imgZoom {
+                display: none;
+            }
+        }
+    </style>
     <!--PreLoader Ends-->
 
     <div class="top-header-area" id="sticker">
@@ -54,7 +60,7 @@
                     <div class="main-menu-wrap">
                         <!-- logo -->
                         <div class="site-logo">
-                            <a href="index.html">
+                            <a href="/">
                                 <img src="/assets/img/logo.png" alt="">
                             </a>
                         </div>
@@ -73,9 +79,9 @@
                                 <li><a href="/wishList">WishList</a></li>
                                 <li>
                                     <div class="header-icons">
-                                        <a class="dropks" href="">
+                                        <a class="dropks" >
                                             <% if(typeof userData !="undefined" ){ %>
-                                                <a class="dropks" href="">
+                                                <a class="dropks">
 
                                                     <%= userData.name %>
 
@@ -92,8 +98,6 @@
                                                 <% }else{ %>
                                                     <a href="/login">login</a>
                                                     <% } %>
-
-
                                     </div>
                                 </li>
                             </ul>
@@ -134,18 +138,18 @@
                                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                         <div class="carousel-inner">
                                             <div class="carousel-item active">
-                                                <div class="img-zoom-container-img">
+                                                <div  class="img-zoom-container-img">
                                                     <img class="d-block w-100" id="img"
                                                         src="/productImage/<%= product.image[0] %>" alt="First slide">
                                                 </div>
                                             </div>
                                             <div class="carousel-item ">
-                                                <img class="d-block w-100" 
-                                                    src="/productImage/<%= product.image[0] %>" alt="First slide">
+                                                <img class="d-block w-100" src="/productImage/<%= product.image[0] %>"
+                                                    alt="First slide">
                                             </div>
                                             <div class="carousel-item ">
-                                                <img class="d-block w-100" 
-                                                    src="/productImage/<%= product.image[0] %>" alt="First slide">
+                                                <img class="d-block w-100" src="//<%= product.image[0] %>"
+                                                    alt="First slide">
                                             </div>
 
                                         </div>
@@ -167,7 +171,7 @@
                     </div>
                 </div>
                 <div class="col-md-7">
-                    <div class="img-zoom-container-div is_sticky">
+                    <div id="imgZoom" class="img-zoom-container-div is_sticky">
                         <div id="myresult" class="img-zoom-result"></div>
                     </div>
                     <div class="single-product-content">
@@ -289,7 +293,7 @@
                     <div class="footer-box pages">
                         <h2 class="widget-title">Pages</h2>
                         <ul>
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="/">Home</a></li>
                             <li><a href="/about">About</a></li>
                             <li><a href="services.html">Shop</a></li>
                             <li><a href="news.html">News</a></li>
@@ -301,7 +305,7 @@
                     <div class="footer-box subscribe">
                         <h2 class="widget-title">Subscribe</h2>
                         <p>Subscribe to our mailing list to get the latest updates.</p>
-                        <form action="index.html">
+                        <form action="/">
                             <input type="email" placeholder="Email">
                             <button type="submit"><i class="fas fa-paper-plane"></i></button>
                         </form>
@@ -336,7 +340,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.js"></script>
     <script>
         function addwishlist(id) {
