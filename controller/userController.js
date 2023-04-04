@@ -761,7 +761,7 @@ const verifyPayment = async (req, res, next) => {
 
 const orderList = async (req, res, next) => {
     try {
-        const orderDetails = await Order.find({ userId: req.session.user_id })
+        const orderDetails = await Order.find({ userId: req.session.user_id }).sort({date:-1})
         const userData = await User.findOne({ _id: req.session.user_id })
         res.render('orderList', { orderDetails, userData })
     } catch (error) {
