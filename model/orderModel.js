@@ -19,7 +19,7 @@ const orderDetails = mongoose.Schema({
 const orderSchema = new mongoose.Schema({
     userId: {
         type: ObjectId,
-        required: false,
+        required: true,
         ref:'User'
     },
     productData: [orderDetails],

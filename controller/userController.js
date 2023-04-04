@@ -148,7 +148,6 @@ const resendOtpSignup = async (req, res, next) => {
 const loadLogin = async (req, res, next) => {
     try {
         res.render('login')
-
     } catch (error) {
         next(error)
     }
@@ -199,7 +198,7 @@ const verifyLogin = async (req, res, next) => {
 
 const loadHome = async (req, res, next) => {
     try {
-        const productData = await Product.find({is_active:true})
+        const productData = await Product.find({ is_active: true })
         const bannerData = await Banner.find({})
         if (req.session.userLogged) {
             const userData = await User.findOne({ _id: req.session.user_id })
@@ -262,7 +261,7 @@ const loadCart = async (req, res, next) => {
                 res.render('cart', { cartProducts, userCart, totalSalePrice, userData })
 
             } else {
-                res.render('cart',{userData})
+                res.render('cart', { userData })
             }
         } else {
             res.render('cart')
@@ -430,7 +429,6 @@ const verifyOtp = async (req, res, next) => {
                 if (verification_check.status === 'approved') {
                     const UserId = await User.findOne({ mobile: req.session.number })
                     req.session.user_id = UserId._id;
-                    console.log(UserId._id);
                     req.session.userLogged = true
                     res.redirect('/')
                 } else {
@@ -620,26 +618,26 @@ const uploadEdit = async (req, res, next) => {
 const changeQuantity = async (req, res, next) => {
     try {
         const productPrice = await Product.findOne({ _id: req.body.productId })
-        
+
         const userData = req.body.userData
         const productId = req.body.productId
         const quantity = req.body.quantity
 
 
         const cartData = await Cart.findOneAndUpdate({ _id: userData, 'products.productId': productId }, {})
-        const dd = cartData.products.find(item => item.productId == req.body.productId)
-        const totalQuantity = dd.quantity + Number(quantity)
+        const cartProduct = cartData.products.find(item => item.productId == req.body.productId)
+        const totalQuantity = cartProduct.quantity + Number(quantity)
         if (totalQuantity > 0) {
             await Cart.findOneAndUpdate({ _id: userData, 'products.productId': productId }, { $inc: { 'products.$.quantity': quantity } })
             if (quantity == 1) {
-                const subTotal = dd.total + productPrice.salePrice
+                const subTotal = cartProduct.total + productPrice.salePrice
                 const stock = productPrice.quantity
                 await Cart.findOneAndUpdate({ _id: req.body.userData, 'products.productId': productId }, { $set: { "products.$.total": Number(subTotal) } })
-                res.json({ success: true, total: dd.total,stock })
+                res.json({ success: true, total: cartProduct.total, stock })
             } else {
-                const subTotal = dd.total - productPrice.salePrice
+                const subTotal = cartProduct.total - productPrice.salePrice
                 await Cart.findOneAndUpdate({ _id: req.body.userData, 'products.productId': productId }, { $set: { "products.$.total": Number(subTotal) } })
-                res.json({ success: false, total: dd.total })
+                res.json({ success: false, total: cartProduct.total })
             }
         } else {
             await Cart.updateOne({ _id: userData, "products.productId": productId }, { $pull: { products: { productId: productId } } })
@@ -719,7 +717,7 @@ const placeOder = async (req, res, next) => {
                     currency: "INR",
                     receipt: orderSaved._id.toString(),
                 }).then((order) => {
-                    console.log(order);
+                   
                     res.json({ order: order, user: userData });
                 })
             } else {
@@ -755,13 +753,13 @@ const verifyPayment = async (req, res, next) => {
             res.json({ success: false })
         }
     } catch (error) {
-        console.log(error.message)
+        next(error)
     }
 }
 
 const orderList = async (req, res, next) => {
     try {
-        const orderDetails = await Order.find({ userId: req.session.user_id }).sort({date:-1})
+        const orderDetails = await Order.find({ userId: req.session.user_id }).sort({ date: -1 })
         const userData = await User.findOne({ _id: req.session.user_id })
         res.render('orderList', { orderDetails, userData })
     } catch (error) {
@@ -805,7 +803,7 @@ const insertWishList = async (req, res, next) => {
                 userData: req.session.user_id,
             })
 
-            const cartData = await data.save();
+             await data.save();
 
             res.json({ success: true })
         }
@@ -872,7 +870,7 @@ const moveToCart = async (req, res, next) => {
                 res.redirect('/cart')
             } else {
                 await Cart.findByIdAndUpdate({ _id: UserId._id }, { $push: { products: product } })
-                console.log(req.query.id)
+              
 
                 const remPro = wishData.products.findIndex(product => product.productId == req.query.id)
                 wishData.products.splice(remPro, 1)
@@ -892,7 +890,7 @@ const moveToCart = async (req, res, next) => {
             res.redirect('/cart')
         }
     } catch (error) {
-        console.log(error.message)
+       next(error)
     }
 }
 
@@ -928,9 +926,9 @@ const orderConfirmation = async (req, res, next) => {
             await Product.updateOne({ _id: product.productId._id }, { $inc: { quantity: -(product.quantity) } })
         })
 
-        const cartData = await Cart.deleteOne({ userData: req.session.user_id })
+         await Cart.deleteOne({ userData: req.session.user_id })
         const address = userData.address.find((item) => item._id == addressId)
-        console.log(cartData);
+       
 
         res.render('orderConfirmation', { userData, orderData, address, date })
     } catch (error) {
@@ -953,7 +951,6 @@ const applyCoupon = async (req, res, next) => {
                 const date = new Date()
                 const expiryDate = new Date(couponData.ExpiryDate)
                 const userData = await Coupon.findOne({ $and: [{ coupon: req.body.coupon }, { userId: { $in: [req.session.user_id] } }] })
-                console.log(userData);
                 if (userData) {
                     res.json({ success: true, userData: true })
                 } else if (couponData.minUser == 0) {
@@ -1010,7 +1007,7 @@ const changePass = async (req, res, next) => {
             res.render('userProfile', { Vmessage: "Current password is not match", userData })
         }
     } catch (error) {
-        console.log(error.messsage);
+        next(error)
     }
 }
 

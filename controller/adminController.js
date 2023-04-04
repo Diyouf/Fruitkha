@@ -323,7 +323,7 @@ const insertCategory = async (req, res) => {
             if (categoryName) {
                 res.render('addCategory', { message: "Name is Already Exists" })
             } else {
-                const userData = await categorys.save();
+                 await categorys.save();
                 res.redirect('/admin/category')
             }
         }
@@ -399,7 +399,7 @@ const deleteImage = async (req, res) => {
 
 const userOrder = async (req, res) => {
     try {
-        const orders = await Order.find().populate('userId').sort({ data: -1 })
+        const orders = await Order.find({}).populate('userId').sort({ date: -1 })
         res.render('userOrder', { orders })
     } catch (error) {
         console.log(error.message);
@@ -411,8 +411,8 @@ const orderView = async (req, res) => {
         const productDetails = await Order.findOne({ _id: req.query.id }).populate('productData.productId')
         const produts = productDetails.productData
         const address = productDetails.addressId
-        const p = await Users.findOne({ _id: productDetails.userId, address: { $elemMatch: { _id: address } } }, { "address.$": 1, _id: 0 })
-        const UserAddress = p.address
+        const addressFilter = await Users.findOne({ _id: productDetails.userId, address: { $elemMatch: { _id: address } } }, { "address.$": 1, _id: 0 })
+        const UserAddress = addressFilter.address
 
         res.render('userOrderView', { produts, productDetails, UserAddress })
     } catch (error) {
@@ -424,7 +424,7 @@ const changeStatus = async (req, res) => {
     try {
 
         await Order.findByIdAndUpdate({ _id: req.body.orderId }, { $set: { status: req.body.status } })
-        if (req.body.status === "Delivered") {
+        if (req.body.status == "Delivered") {
             await Order.findByIdAndUpdate({ _id: req.body.orderId }, { $set: { paymentStatus: "Payment completed" } })
             res.redirect('/admin/orderView?id=' + req.body.orderId)
         } else {
@@ -593,8 +593,6 @@ const SalesPdf = async (req, res) => {
 
             const start = req.body.fromDate
             const end = req.body.toDate
-            console.log(new Date(start));
-            console.log(new Date(end));
             const orderSuccess = await Order.find({ status: "Delivered", date: { $gte: new Date(start), $lte: new Date(end) } }).populate('productData.productId')
             data = {
                 orderSuccess: orderSuccess
@@ -621,7 +619,7 @@ const SalesPdf = async (req, res) => {
             stream.pipe(res);
         });
 
-        console.log('pdf generated')
+        
     } catch (error) {
         console.log(error.message);
     }
