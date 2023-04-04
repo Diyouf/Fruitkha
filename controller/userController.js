@@ -330,7 +330,7 @@ const loadContact = async (req, res, next) => {
 
 const loadShop = async (req, res, next) => {
     try {
-        const category = await Category.find({})
+        const category = await Category.find({is_active: true})
         const productData = await Product.find({ is_active: true })
         if (req.session.userLogged) {
             const userData = await User.findOne({ _id: req.session.user_id })
@@ -1022,9 +1022,10 @@ const categoryFilter = async (req, res, next) => {
         }
         let productData;
         if (req.body.id == "all") {
-            productData = await Product.find({}).sort(sort)
+            productData = await Product.find({is_active: true}).sort(sort)
         } else {
-            productData = await Product.find({ category: req.body.id }).sort(sort)
+            productData = await Product.find({ category: req.body.id, is_active: true }).sort(sort);
+
         }
 
         res.json(productData)

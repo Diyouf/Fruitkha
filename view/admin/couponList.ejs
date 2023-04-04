@@ -78,7 +78,6 @@
                 <!-- Place this tag where you want the button to render. -->
 
                 <li class="nav-item navbar-dropdown">
-
                     <a class="nav-link dropdown-toggle hide-arrow" href="/admin/addCoupon">
                         <button type="button" class="btn btn-success">Add New
                             Coupon +</button>
@@ -104,13 +103,12 @@
         <!-- Content -->
         <div class="container mt-3 py-5">
 
-            <table id="couponTable" class="table table-bordered">
+            <table id="productTable" class="table table-bordered">
                 <% if(couponData.length>0){ %>
                     <thead class="table-light">
                         <tr>
                             <th>Coupon Name</th>
                             <th>Coupon Type</th>
-                            <th>Status</th>
                             <th>Min Price</th>
                             <th>Discount Price</th>
                             <th>Min User</th>
@@ -192,7 +190,7 @@
 
     <script>
         $(document).ready(function () {
-            $('#couponTable').DataTable();
+            $('#productTable').DataTable();
         });
     </script>
     <script>
