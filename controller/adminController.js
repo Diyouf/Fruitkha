@@ -440,8 +440,13 @@ const changeStatus = async (req, res) => {
 const loadCoupon = async (req, res) => {
     try {
         const couponData = await Coupon.find({})
-        res.render('couponList', { couponData })
-
+        const expiryDate =new Date( couponData.ExpiryDate)
+        const currentDate = new Date()
+        if (expiryDate < currentDate) {
+            res.render('couponList', { couponData, couponExpired: true })
+        } else {
+            res.render('couponList', { couponData, couponExpired: false })
+        }
     } catch (error) {
         console.log(error.message);
     }
