@@ -1,7 +1,12 @@
 require('dotenv').config()
 const mongoose = require("mongoose");
 mongoose.set("strictQuery",false);
-mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION)
+
+mongoose.connect(process.env.MONGODB_ATLAS_CONNECTION).then(()=>{
+    console.log('MongoDb is connected...')
+}).catch((err)=>{
+    console.log(err);
+})
 
 const express = require("express");
 const app = express();

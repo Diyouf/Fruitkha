@@ -66,14 +66,15 @@ const insertUser = async (req, res, next) => {
                     if (userEmail) {
                         res.render('register', { emailMassege: "Email is Already Exit" })
                     } else {
-
+                        console.log('hits', req.body.mobile)
                         client.verify.v2
                             .services(verifySid)
-                            .verifications.create({ to: "+91" + req.session.userData.mobile, channel: "sms" })
+                            .verifications.create({ to: "+91" + req.body.mobile, channel: "sms" })
                             .then((verification) => {
                                 console.log(verification.status)
                                 res.redirect('/signUpOtp')
                             })
+
                     }
                 }
             }
@@ -98,7 +99,7 @@ const verifySignUp = async (req, res, next) => {
         const otp = req.body.otp;
         const spassword = await securePassword(req.session.userData.password)
         client.verify.v2
-            .services("VA7af70251e13b3308736a34f237702b4a")
+            .services(verifySid)
             .verificationChecks.create({ to: "+91" + req.session.userData.mobile, code: otp })
             .then((verification_check) => {
                 if (verification_check.status === 'approved') {
@@ -330,7 +331,7 @@ const loadContact = async (req, res, next) => {
 
 const loadShop = async (req, res, next) => {
     try {
-        const category = await Category.find({is_active: true})
+        const category = await Category.find({ is_active: true })
         const productData = await Product.find({ is_active: true })
         if (req.session.userLogged) {
             const userData = await User.findOne({ _id: req.session.user_id })
@@ -717,7 +718,7 @@ const placeOder = async (req, res, next) => {
                     currency: "INR",
                     receipt: orderSaved._id.toString(),
                 }).then((order) => {
-                   
+
                     res.json({ order: order, user: userData });
                 })
             } else {
@@ -803,7 +804,7 @@ const insertWishList = async (req, res, next) => {
                 userData: req.session.user_id,
             })
 
-             await data.save();
+            await data.save();
 
             res.json({ success: true })
         }
@@ -870,7 +871,7 @@ const moveToCart = async (req, res, next) => {
                 res.redirect('/cart')
             } else {
                 await Cart.findByIdAndUpdate({ _id: UserId._id }, { $push: { products: product } })
-              
+
 
                 const remPro = wishData.products.findIndex(product => product.productId == req.query.id)
                 wishData.products.splice(remPro, 1)
@@ -890,7 +891,7 @@ const moveToCart = async (req, res, next) => {
             res.redirect('/cart')
         }
     } catch (error) {
-       next(error)
+        next(error)
     }
 }
 
@@ -926,9 +927,9 @@ const orderConfirmation = async (req, res, next) => {
             await Product.updateOne({ _id: product.productId._id }, { $inc: { quantity: -(product.quantity) } })
         })
 
-         await Cart.deleteOne({ userData: req.session.user_id })
+        await Cart.deleteOne({ userData: req.session.user_id })
         const address = userData.address.find((item) => item._id == addressId)
-       
+
 
         res.render('orderConfirmation', { userData, orderData, address, date })
     } catch (error) {
@@ -1022,7 +1023,7 @@ const categoryFilter = async (req, res, next) => {
         }
         let productData;
         if (req.body.id == "all") {
-            productData = await Product.find({is_active: true}).sort(sort)
+            productData = await Product.find({ is_active: true }).sort(sort)
         } else {
             productData = await Product.find({ category: req.body.id, is_active: true }).sort(sort);
 
